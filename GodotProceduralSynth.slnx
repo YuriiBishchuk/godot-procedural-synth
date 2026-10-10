@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/samples/">
+    <Project Path="samples/AudioSynthHarness/AudioSynthHarness.csproj" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/GodotProceduralSynth/GodotProceduralSynth.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/GodotProceduralSynth.Tests/GodotProceduralSynth.Tests.csproj" />
+  </Folder>
+</Solution>
