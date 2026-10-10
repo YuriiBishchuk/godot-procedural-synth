@@ -12,7 +12,9 @@
     <Authors>Yurii Bishchuk</Authors>
     <Description>Universal real-time procedural audio and music synthesis engine for Godot 4 (C# / .NET) with dynamic adaptive arrangement and SFX generation.</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/YuriiBishchuk/godot-procedural-synth</PackageProjectUrl>
     <RepositoryUrl>https://github.com/YuriiBishchuk/godot-procedural-synth</RepositoryUrl>
+    <PackageTags>godot;godot4;godot-engine;csharp;procedural-audio;synth;audiostreamgenerator;dsp;sfx;game-audio;dynamic-music;adaptive-music;sound-effects;shchedryk;ukraine</PackageTags>
   </PropertyGroup>
 
 </Project>

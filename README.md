@@ -5,6 +5,9 @@
 [![Godot Engine](https://img.shields.io/badge/Godot-4.x%20C%23-478CBF?logo=godotengine&logoColor=white)](https://godotengine.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Dependencies](https://img.shields.io/badge/Dependencies-Zero-brightgreen)](#)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Web%20Audio%20Playground-06b6d4?logo=googlechrome&logoColor=white)](https://yuriibishchuk.github.io/godot-procedural-synth/)
+
+> 🎮 **[Launch Live Web Audio Playground](https://yuriibishchuk.github.io/godot-procedural-synth/)** — Test the real-time DSP filters, adaptive sliders, and sound effects right in your browser!
 
 **GodotProceduralSynth** is a universal, high-performance procedural audio and music synthesis library for **Godot 4** and modern C# (.NET 8 / 9 / 10), proudly developed as an open-source project in Ukraine 🇺🇦.
 
@@ -121,17 +124,24 @@ var (left, right) = engine.RenderFromRecipe(recipe);
 
 ---
 
-## 🔌 Integration with Godot 4 (C#)
+## 🔌 Installation & Integration with Godot 4 (C#)
 
-### Step 1: Reference the Library
-Add `GodotProceduralSynth` to your game's `.csproj`:
+### Option A: Godot Addon (Recommended for Godot Editor)
+1. Copy the `addons/godot_procedural_synth/` folder into your Godot project's `res://addons/` directory.
+2. In Godot, go to **Project Settings -> Plugins** and enable **GodotProceduralSynth**.
+3. You now have access to the custom **`ProceduralAudioStreamPlayer`** node directly in Godot's "Create New Node" dialog with full Inspector property controls!
+
+### Option B: C# Project Reference / NuGet
+Add a reference to `GodotProceduralSynth.csproj` in your game's `.csproj`:
 ```xml
 <ItemGroup>
   <ProjectReference Include="path/to/GodotProceduralSynth/src/GodotProceduralSynth/GodotProceduralSynth.csproj" />
 </ItemGroup>
 ```
 
-### Step 2: Use `AudioStreamGenerator`
+---
+
+### Streaming Audio via `AudioStreamGenerator` (Pure Code)
 Drop `samples/GodotIntegration/AdaptiveMusicEngine.cs` into your project:
 
 ```csharp

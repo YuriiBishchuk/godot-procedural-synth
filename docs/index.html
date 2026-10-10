@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cyber-Shchedryk — Real-Time Synth Playground</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-deep: #070913;
+      --card-bg: rgba(18, 22, 40, 0.75);
+      --card-border: rgba(245, 158, 11, 0.3);
+      --neon-gold: #f59e0b;
+      --neon-amber: #fbbf24;
+      --neon-cyan: #06b6d4;
+      --neon-purple: #a855f7;
+      --neon-pink: #ec4899;
+      --neon-red: #ef4444;
+      --text-main: #f1f5f9;
+      --text-dim: #94a3b8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: radial-gradient(circle at 50% 0%, #1e113a 0%, var(--bg-deep) 75%);
+      color: var(--text-main);
+      font-family: 'Rajdhani', sans-serif;
+      min-height: 100vh;
+      padding: 30px 20px 80px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    header {
+      text-align: center;
+      max-width: 960px;
+      margin-bottom: 25px;
+    }
+
+    .badge-pill {
+      display: inline-block;
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: #000;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      padding: 5px 16px;
+      border-radius: 999px;
+      margin-bottom: 12px;
+      box-shadow: 0 0 20px rgba(245, 158, 11, 0.4);
+    }
+
+    h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2.2rem;
+      letter-spacing: 2px;
+      background: linear-gradient(135deg, #fbbf24, #f59e0b, #ec4899);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+
+    p.subtitle {
+      color: var(--text-dim);
+      font-size: 1.1rem;
+      line-height: 1.5;
+    }
+
+    .nav-links {
+      margin-top: 15px;
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+    }
+
+    .nav-link {
+      color: var(--neon-cyan);
+      text-decoration: none;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.85rem;
+      padding: 6px 14px;
+      border: 1px solid rgba(6, 182, 212, 0.3);
+      border-radius: 8px;
+      background: rgba(6, 182, 212, 0.05);
+      transition: all 0.2s;
+    }
+
+    .nav-link:hover {
+      background: rgba(6, 182, 212, 0.2);
+      border-color: var(--neon-cyan);
+    }
+
+    /* Main Container */
+    .synth-container {
+      width: 100%;
+      max-width: 1100px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 25px;
+    }
+
+    @media (max-width: 900px) {
+      .synth-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .panel {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 24px;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.5);
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding-bottom: 12px;
+    }
+
+    .panel-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Master Bar */
+    .master-bar {
+      grid-column: 1 / -1;
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.12), rgba(168, 85, 247, 0.15));
+      border: 2px solid rgba(245, 158, 11, 0.5);
+      border-radius: 20px;
+      padding: 20px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 20px;
+      box-shadow: 0 0 35px rgba(245, 158, 11, 0.2);
+    }
+
+    .play-btn {
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: #fff;
+      border: none;
+      padding: 14px 32px;
+      border-radius: 14px;
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 900;
+      font-size: 1.1rem;
+      letter-spacing: 1px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 0 25px rgba(16, 185, 129, 0.5);
+      transition: all 0.2s;
+    }
+
+    .play-btn.playing {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      box-shadow: 0 0 25px rgba(239, 68, 68, 0.5);
+    }
+
+    .play-btn:active {
+      transform: scale(0.96);
+    }
+
+    /* Visualizer Canvas */
+    .visualizer-box {
+      flex: 1;
+      min-width: 280px;
+      height: 60px;
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    /* Preset Buttons */
+    .presets-row {
+      grid-column: 1 / -1;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .preset-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #cbd5e1;
+      padding: 8px 16px;
+      border-radius: 10px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .preset-btn:hover {
+      background: rgba(245, 158, 11, 0.2);
+      border-color: var(--neon-gold);
+      color: #fff;
+    }
+
+    .preset-btn.active-preset {
+      background: linear-gradient(135deg, var(--neon-gold), #d97706);
+      border-color: #fbbf24;
+      color: #000;
+      box-shadow: 0 0 15px rgba(245, 158, 11, 0.5);
+    }
+
+    /* Slider Row */
+    .slider-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .slider-label-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .slider-name {
+      color: #e2e8f0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .slider-val {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.9rem;
+      color: var(--neon-cyan);
+      font-weight: 700;
+    }
+
+    .slider-sub {
+      font-size: 0.8rem;
+      color: var(--text-dim);
+    }
+
+    input[type=range] {
+      -webkit-appearance: none;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      height: 8px;
+      border-radius: 4px;
+      outline: none;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--neon-amber), var(--neon-gold));
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(245, 158, 11, 0.7);
+      transition: transform 0.1s;
+    }
+
+    input[type=range]::-webkit-slider-thumb:active {
+      transform: scale(1.2);
+    }
+
+    /* Quick Action Triggers */
+    .triggers-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    .trigger-btn {
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.05);
+      color: #fff;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .trigger-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: #fff;
+    }
+
+    .trigger-btn:active {
+      transform: scale(0.97);
+    }
+
+    .trigger-duck {
+      background: rgba(168, 85, 247, 0.2);
+      border-color: var(--neon-purple);
+      color: #c084fc;
+    }
+
+    .trigger-duck.active {
+      background: var(--neon-purple);
+      color: #000;
+      box-shadow: 0 0 20px rgba(168, 85, 247, 0.8);
+    }
+
+    .trigger-stop {
+      background: rgba(239, 68, 68, 0.2);
+      border-color: var(--neon-red);
+      color: #f87171;
+    }
+
+    .trigger-stop.active {
+      background: var(--neon-red);
+      color: #000;
+      box-shadow: 0 0 20px rgba(239, 68, 68, 0.8);
+    }
+
+    /* Active Step LED Tracker */
+    .step-tracker {
+      display: flex;
+      gap: 4px;
+      margin-top: 6px;
+    }
+
+    .step-led {
+      flex: 1;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 3px;
+      transition: background 0.05s;
+    }
+
+    .step-led.active {
+      background: var(--neon-gold);
+      box-shadow: 0 0 8px var(--neon-gold);
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="badge-pill">⭐ GODOT 4 REAL-TIME PROCEDURAL AUDIO PLAYGROUND</div>
+    <h1>GodotProceduralSynth</h1>
+    <p class="subtitle">
+      Interactive Web Audio DSP simulation of the Godot 4 (C# / .NET) procedural engine. Drag the sliders in real-time to hear adaptive tempo, Moog ladder filters, sidechain ducking, and polyphonic arrangements.
+    </p>
+    <div class="nav-links">
+      <a href="https://github.com/YuriiBishchuk/godot-procedural-synth" class="nav-link">⭐ View Source on GitHub</a>
+    </div>
+  </header>
+
+  <div class="synth-container">
+
+    <!-- Presets -->
+    <div class="presets-row">
+      <button class="preset-btn active-preset" onclick="applyPreset('calm')">🎮 1. Спокійний старт (Lvl 1)</button>
+      <button class="preset-btn" onclick="applyPreset('speed')">⚡ 2. Розгін (Lvl 5)</button>
+      <button class="preset-btn" onclick="applyPreset('danger')">🚨 3. Червона зона (Lvl 9)</button>
+      <button class="preset-btn" onclick="applyPreset('polyphony')">🕊️ 4. Підголосок «Ластівка»</button>
+      <button class="preset-btn" onclick="applyPreset('cathedral')">🔔 5. Церковні Дзвони</button>
+    </div>
+
+    <!-- Master Controls & Visualizer -->
+    <div class="master-bar">
+      <button id="playBtn" class="play-btn" onclick="togglePlay()">
+        <span id="playIcon">▶</span> <span id="playText">Увімкнути звук</span>
+      </button>
+
+      <div class="visualizer-box">
+        <canvas id="scopeCanvas"></canvas>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 4px; min-width: 140px;">
+        <span style="font-size: 0.85rem; color: #94a3b8; font-weight: 700;">Крок мелодії:</span>
+        <div class="step-tracker" id="stepTracker">
+          <!-- 12 step LEDs -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Panel 1: Gameplay Telemetry (Level, Tower Height, Holes, APM) -->
+    <div class="panel">
+      <div class="panel-header">
+        <span class="panel-title">🎮 Ігрова Телеметрія (Tetris State)</span>
+        <span style="font-size: 0.8rem; color: var(--neon-gold); font-weight: 700;">AUTO-MODULATION</span>
+      </div>
+
+      <!-- Danger / Tension -->
+      <div class="slider-group">
+        <div class="slider-label-row">
+          <span class="slider-name">🔥 Напруга / Висота вежі:</span>
+          <span class="slider-val" id="valTension">20%</span>
+        </div>
+        <div class="slider-sub">Керує агресією кіків, яскравістю фільтра та стрибком дзвіночків на октаву.</div>
+        <input type="range" id="sliderTension" min="0" max="100" value="20" oninput="updateParams()">
+      </div>
+
+      <!-- Level -->
+      <div class="slider-group">
+        <div class="slider-label-row">
+          <span class="slider-name">🏆 Рівень гри (Level):</span>
+          <span class="slider-val" id="valLevel">1</span>
+        </div>
+        <div class="slider-sub">Збільшує базову швидкість та темп.</div>
+        <input type="range" id="sliderLevel" min="1" max="15" value="1" oninput="updateParams()">
+      </div>
+
+      <!-- APM -->
+      <div class="slider-group">
+        <div class="slider-label-row">
+          <span class="slider-name">⚡ APM (Дій / секунду):</span>
+          <span class="slider-val" id="valApm">1.2</span>
+        </div>
+        <div class="slider-sub">Інтенсивність ротацій фігур гравцем.</div>
+        <input type="range" id="sliderApm" min="0.5" max="5.0" step="0.1" value="1.2" oninput="updateParams()">
+      </div>
+
+      <!-- Triggers -->
+      <div class="triggers-grid">
+        <button class="trigger-btn trigger-duck" id="duckBtn" onclick="triggerTetrisClear()">
+          💥 Збір 4 ліній (-8dB)
+        </button>
+        <button class="trigger-btn trigger-stop" id="stopBtn" onclick="triggerTapeStop()">
+          🛑 Game Over (Tape-Stop)
+        </button>
+      </div>
+    </div>
+
+    <!-- Panel 2: Synthesizer & Polyphony Controls -->
+    <div class="panel">
+      <div class="panel-header">
+        <span class="panel-title">🎛️ Параметри Синтезатора (C# DSP)</span>
+        <span style="font-size: 0.8rem; color: var(--neon-cyan); font-weight: 700;">LIVE AUDIO ENGINE</span>
+      </div>
+
+      <!-- BPM -->
+      <div class="slider-group">
+        <div class="slider-label-row">
+          <span class="slider-name">⏱️ Темп (BPM):</span>
+          <span class="slider-val" id="valBpm">122</span>
+        </div>
+        <div class="slider-sub">Плавний фазовий секвенсор без зривів нот.</div>
+        <input type="range" id="sliderBpm" min="100" max="160" value="122" oninput="updateParams()">
+      </div>
+
+      <!-- Moog Filter Cutoff -->
+      <div class="slider-group">
+        <div class="slider-label-row">
+          <span class="slider-name">🌊 Зріз Moog-фільтра:</span>
+          <span class="slider-val" id="valCutoff">1350 Hz</span>
+        </div>
+        <div class="slider-sub">4-полюсний аналоговий фільтр (24 dB/oct).</div>
+        <input type="range" id="sliderCutoff" min="600" max="4500" value="1350" oninput="updateParams()">
+      </div>
+
+      <!-- Polyphony Layer: Lastivka -->
+      <div class="slider-group">
+        <div class="slider-label-row">
+          <span class="slider-name">🕊️ Підголосок «Ластівка» (Soprano):</span>
+          <span class="slider-val" id="valLastivka">40%</span>
+        </div>
+        <div class="slider-sub">Поліфонічна вторинна хорова партія Леонтовича поверх остинато D-C-D-Bb.</div>
+        <input type="range" id="sliderLastivka" min="0" max="100" value="40" oninput="updateParams()">
+      </div>
+
+      <!-- Cathedral Bell Strike -->
+      <div class="slider-group">
+        <div class="slider-label-row">
+          <span class="slider-name">🔔 Церковні Дзвони (Cathedral Toll):</span>
+          <span class="slider-val" id="valBells">50%</span>
+        </div>
+        <div class="slider-sub">Удар негармонійного FM-дзвона на сильні долі такту з резонансним хвостом.</div>
+        <input type="range" id="sliderBells" min="0" max="100" value="50" oninput="updateParams()">
+      </div>
+
+      <!-- Master Volume -->
+      <div class="slider-group">
+        <div class="slider-label-row">
+          <span class="slider-name">🔊 Загальна гучність:</span>
+          <span class="slider-val" id="valVol">80%</span>
+        </div>
+        <input type="range" id="sliderVol" min="0" max="100" value="80" oninput="updateParams()">
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // --- STEP LED TRACKER SETUP ---
+    const stepTracker = document.getElementById('stepTracker');
+    for (let s = 0; s < 12; s++) {
+      const led = document.createElement('div');
+      led.className = 'step-led';
+      led.id = `led-${s}`;
+      stepTracker.appendChild(led);
+    }
+
+    // --- AUDIO ENGINE STATE ---
+    let audioCtx = null;
+    let procNode = null;
+    let isPlaying = false;
+
+    // Parameters (smoothly interpolated)
+    let curBpm = 122.0, targetBpm = 122.0;
+    let curCutoff = 1350.0, targetCutoff = 1350.0;
+    let curTension = 0.2, targetTension = 0.2;
+    let curLastivkaGain = 0.4, targetLastivkaGain = 0.4;
+    let curBellsGain = 0.5, targetBellsGain = 0.5;
+    let curDuckGain = 1.0, targetDuckGain = 1.0;
+    let pitchMult = 1.0;
+    let masterVol = 0.8;
+
+    // Synthesizer DSP state
+    let beatPhase = 0.0;
+    let currentStep = -1;
+    let noteTime = 0.0;
+    let phaseLead1 = 0.0, phaseLead2 = 0.0;
+    let phaseCounter1 = 0.0, phaseCounter2 = 0.0;
+    let phaseBass = 0.0, phaseSub = 0.0;
+
+    // Moog Filter State
+    let fStage = [0, 0, 0, 0];
+
+    // Bell & Drum trigger states
+    let bellTimer = 0.0;
+    let bellActive = false;
+    let bellFreq = 146.83; // D3
+
+    let kickTimer = 999.0;
+    let snareTimer = 999.0;
+    let hatTimer = 999.0;
+
+    // Melody arrays
+    // Main Ostinato: D5, C5, D5, Bb4
+    const ostinatoMelody = [587.33, 523.25, 587.33, 466.16];
+
+    // Soprano Counter-Melody «Ластівка / Щедрівочка»:
+    // Measures 0-3: Choral sustained 5th/harmonics (A5, F5)
+    // Measures 4-7: «Щедрівочка / Прилетіла ластівочка» (F5-E5-F5-D5 ... A5-G5-A5-F5)
+    // Measures 8-11: High cascade («В тебе товар весь хороший»): D6-C6-Bb5-A5 | G5-F5-E5-D5
+    const sopranoMelody = [
+      // Bar 0-3
+      880.00, 0, 880.00, 0,
+      880.00, 0, 880.00, 0,
+      698.46, 0, 698.46, 0,
+      698.46, 0, 698.46, 0,
+
+      // Bar 4-7: Ластівочка
+      698.46, 659.25, 698.46, 587.33,
+      698.46, 659.25, 698.46, 587.33,
+      783.99, 698.46, 783.99, 659.25,
+      880.00, 783.99, 880.00, 698.46,
+
+      // Bar 8-11: Клімакс
+      1174.66, 1046.50, 932.33, 880.00,
+      783.99, 698.46, 659.25, 587.33,
+      880.00, 783.99, 698.46, 659.25,
+      587.33, 0.0,    587.33, 0.0
+    ];
+
+    const bassProgression = [
+      73.42, 73.42, 73.42, 73.42,
+      58.27, 58.27, 48.99, 55.00,
+      73.42, 58.27, 55.00, 73.42
+    ];
+
+    // Visualizer buffer
+    const scopeCanvas = document.getElementById('scopeCanvas');
+    const scopeCtx = scopeCanvas.getContext('2d');
+    let scopeData = new Float32Array(256);
+
+    function initAudio() {
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)({ sampleRate: 44100 });
+      window.audioCtx = audioCtx;
+
+      // 1 input, 2 outputs for reliable Chromium processing
+      procNode = audioCtx.createScriptProcessor(2048, 1, 2);
+      window.procNode = procNode;
+
+      // Keepalive dummy source to prevent Chromium from pausing or GC-ing the processor
+      const dummy = audioCtx.createConstantSource ? audioCtx.createConstantSource() : null;
+      if (dummy) {
+        dummy.start();
+        dummy.connect(procNode);
+      }
+
+      procNode.onaudioprocess = function (e) {
+        const outL = e.outputBuffer.getChannelData(0);
+        const outR = e.outputBuffer.getChannelData(1);
+        const sampleRate = audioCtx.sampleRate || 44100;
+        const dt = 1.0 / sampleRate;
+
+        for (let i = 0; i < outL.length; i++) {
+          // Smooth parameter glides
+          curBpm += (targetBpm - curBpm) * (1.0 - Math.exp(-dt / 0.6));
+          curCutoff += (targetCutoff - curCutoff) * (1.0 - Math.exp(-dt / 0.05));
+          curTension += (targetTension - curTension) * (1.0 - Math.exp(-dt / 0.5));
+          curLastivkaGain += (targetLastivkaGain - curLastivkaGain) * (1.0 - Math.exp(-dt / 0.2));
+          curBellsGain += (targetBellsGain - curBellsGain) * (1.0 - Math.exp(-dt / 0.2));
+          curDuckGain += (targetDuckGain - curDuckGain) * (1.0 - Math.exp(-dt / 0.04));
+
+          // Beat clock
+          const beatsPerSec = Math.max(10.0, (curBpm * pitchMult)) / 60.0;
+          beatPhase += beatsPerSec * dt;
+
+          const stepPhase = beatPhase * 3.0; // 3 steps per beat
+          const stepIdx = Math.max(0, Math.floor(stepPhase));
+
+          if (stepIdx !== currentStep) {
+            currentStep = stepIdx;
+            noteTime = 0.0;
+
+            // Trigger events on step starts
+            const stepInBar = currentStep % 12;
+            const barIdx = Math.floor(currentStep / 12);
+
+            // Update UI LED (throttled in requestAnimationFrame)
+            window.activeStepLed = stepInBar;
+
+            // Downbeat of each 4-bar phrase: trigger cathedral bell!
+            if (stepInBar === 0 && (barIdx % 4 === 0)) {
+              bellTimer = 0.0;
+              bellActive = true;
+              bellFreq = 146.83; // D3
+            }
+
+            // Drum triggers
+            const beatInBar = Math.floor(beatPhase) % 4;
+            const isQuarterStart = (currentStep % 3 === 0);
+
+            if (isQuarterStart) {
+              if (curTension < 0.38) {
+                // Chill 808
+                if (beatInBar === 0 || beatInBar === 2) kickTimer = 0.0;
+                if (beatInBar === 1 || beatInBar === 3) snareTimer = 0.0;
+              } else if (curTension < 0.70) {
+                // 4x4 Electro
+                kickTimer = 0.0;
+                if (beatInBar === 1 || beatInBar === 3) snareTimer = 0.0;
+              } else {
+                // Double kick frenzy
+                kickTimer = 0.0;
+                if (beatInBar === 1 || beatInBar === 3) snareTimer = 0.0;
+              }
+            }
+
+            // Hi-hat trigger
+            hatTimer = 0.0;
+          } else {
+            noteTime += dt;
+            bellTimer += dt;
+            kickTimer += dt;
+            snareTimer += dt;
+            hatTimer += dt;
+          }
+
+          const beatFraction = beatPhase - Math.floor(beatPhase);
+          const beatTime = beatFraction * (60.0 / Math.max(20.0, curBpm));
+
+          // 1. Lead Ostinato Voice (Juno Bell)
+          const safeStep = Math.max(0, currentStep);
+          const ostinatoNote = (ostinatoMelody[safeStep % 4] || 587.33) * pitchMult;
+          let leadFreq = ostinatoNote;
+          if (curTension > 0.72) leadFreq *= 2.0; // Octave shift in panic
+
+          phaseLead1 += (leadFreq / sampleRate);
+          if (phaseLead1 >= 1.0) phaseLead1 -= 1.0;
+          phaseLead2 += ((leadFreq * 1.004) / sampleRate);
+          if (phaseLead2 >= 1.0) phaseLead2 -= 1.0;
+
+          const pulseWave = (phaseLead1 < 0.5 ? 1.0 : -1.0);
+          const sawWave = (2.0 * phaseLead2 - 1.0);
+          const rawLead = (pulseWave * 0.5 + sawWave * 0.5) * Math.exp(-noteTime * 4.2);
+
+          // Moog Ladder 4-Pole Filter
+          const fCut = Math.min(sampleRate * 0.45, Math.max(200.0, curCutoff + 900.0 * Math.exp(-noteTime * 8.0)));
+          const fRes = 1.2;
+          const fCutNorm = 2.0 * Math.PI * (fCut / sampleRate);
+          const p = fCutNorm * (1.8 - 0.8 * fCutNorm);
+          const q = 1.0 - p;
+
+          let input = rawLead - fRes * fStage[3];
+          fStage[0] = p * input + q * fStage[0];
+          fStage[1] = p * fStage[0] + q * fStage[1];
+          fStage[2] = p * fStage[0] + q * fStage[2];
+          fStage[3] = p * fStage[2] + q * fStage[3];
+          const leadSignal = fStage[3] * (0.65 + curTension * 0.15);
+
+          // 2. Soprano Polyphony «Ластівка» Voice
+          const sopranoNote = (sopranoMelody[safeStep % sopranoMelody.length] || 0) * pitchMult;
+          let sopranoSignal = 0.0;
+          if (sopranoNote > 0.0 && curLastivkaGain > 0.01) {
+            phaseCounter1 += (sopranoNote / sampleRate);
+            if (phaseCounter1 >= 1.0) phaseCounter1 -= 1.0;
+            phaseCounter2 += ((sopranoNote * 1.006) / sampleRate);
+            if (phaseCounter2 >= 1.0) phaseCounter2 -= 1.0;
+
+            const cSaw = (2.0 * phaseCounter1 - 1.0) * 0.6;
+            const cSine = Math.sin(2.0 * Math.PI * phaseCounter2) * 0.4;
+            const cEnv = Math.exp(-noteTime * 3.5);
+            sopranoSignal = (cSaw + cSine) * cEnv * curLastivkaGain * 0.65;
+          }
+
+          // 3. Cathedral Bell Strike (FM Inharmonic)
+          let bellSignal = 0.0;
+          if (bellActive && curBellsGain > 0.01 && bellTimer < 3.0) {
+            const bDecay1 = Math.exp(-bellTimer * 1.5);
+            const bDecay2 = Math.exp(-bellTimer * 3.0);
+            const bDecay3 = Math.exp(-bellTimer * 5.0);
+
+            const p1 = Math.sin(2.0 * Math.PI * bellFreq * bellTimer) * bDecay1 * 0.55;
+            const p2 = Math.sin(2.0 * Math.PI * (bellFreq * 2.76) * bellTimer) * bDecay2 * 0.35;
+            const p3 = Math.sin(2.0 * Math.PI * (bellFreq * 5.40) * bellTimer) * bDecay3 * 0.20;
+            bellSignal = (p1 + p2 + p3) * curBellsGain * 0.70;
+          }
+
+          // 4. Moog Walking Bass
+          const bassStep = Math.floor(safeStep / 4) % bassProgression.length;
+          const bassFreq = (bassProgression[bassStep] || 73.42) * pitchMult;
+          phaseBass += (bassFreq / sampleRate);
+          if (phaseBass >= 1.0) phaseBass -= 1.0;
+          phaseSub += ((bassFreq * 0.5) / sampleRate);
+          if (phaseSub >= 1.0) phaseSub -= 1.0;
+
+          const sawBass = (2.0 * phaseBass - 1.0) * 0.65;
+          const subBass = Math.sin(2.0 * Math.PI * phaseSub) * 0.55;
+          let bassSignal = (sawBass + subBass) * 0.75;
+          const sidechain = Math.min(1.0, beatTime / 0.075);
+          bassSignal *= sidechain;
+
+          // 5. Drums
+          let kick = 0.0, snare = 0.0, hat = 0.0;
+          if (kickTimer < 0.25) {
+            const kPhase = 2.0 * Math.PI * (48.0 * kickTimer + (82.0 / 45.0) * (1.0 - Math.exp(-kickTimer * 45.0)));
+            kick = Math.sin(kPhase) * Math.exp(-kickTimer * 18.0) * 0.95;
+          }
+          if (snareTimer < 0.22) {
+            const body = Math.sin(2.0 * Math.PI * 190.0 * snareTimer) * Math.exp(-snareTimer * 32.0) * 0.45;
+            const noise = (Math.random() * 2.0 - 1.0) * Math.exp(-snareTimer * 22.0) * 0.40;
+            snare = (body + noise) * 0.85;
+          }
+          if (hatTimer < 0.06) {
+            hat = (Math.random() * 2.0 - 1.0) * Math.exp(-hatTimer * 90.0) * 0.25;
+          }
+
+          // Stereo Mix
+          let mixL = (bassSignal * 0.6) + (kick * 0.8) + (snare * 0.6) + (hat * 0.3) + (leadSignal * 0.85) + (sopranoSignal * 0.4) + (bellSignal * 0.8);
+          let mixR = (bassSignal * 0.6) + (kick * 0.8) + (snare * 0.6) + (hat * 0.3) + (leadSignal * 0.65) + (sopranoSignal * 0.9) + (bellSignal * 0.8);
+
+          // Ducking
+          mixL *= curDuckGain * masterVol;
+          mixR *= curDuckGain * masterVol;
+
+          // Soft Saturation (NaN protected)
+          outL[i] = Number.isFinite(mixL) ? Math.tanh(mixL * 0.75) : 0.0;
+          outR[i] = Number.isFinite(mixR) ? Math.tanh(mixR * 0.75) : 0.0;
+
+          // Feed visualizer
+          if (i % 8 === 0 && (i / 8) < scopeData.length) {
+            scopeData[i / 8] = outL[i];
+          }
+        }
+      };
+
+      procNode.connect(audioCtx.destination);
+    }
+
+    function togglePlay() {
+      if (!audioCtx) initAudio();
+
+      if (!isPlaying) {
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        isPlaying = true;
+        document.getElementById('playBtn').classList.add('playing');
+        document.getElementById('playIcon').innerText = '⏸';
+        document.getElementById('playText').innerText = 'Зупинити';
+        requestAnimationFrame(drawScope);
+      } else {
+        if (audioCtx.state === 'running') audioCtx.suspend();
+        isPlaying = false;
+        document.getElementById('playBtn').classList.remove('playing');
+        document.getElementById('playIcon').innerText = '▶';
+        document.getElementById('playText').innerText = 'Увімкнути звук';
+      }
+    }
+
+    function updateParams() {
+      const tension = parseFloat(document.getElementById('sliderTension').value);
+      const level = parseInt(document.getElementById('sliderLevel').value);
+      const apm = parseFloat(document.getElementById('sliderApm').value);
+      const bpm = parseFloat(document.getElementById('sliderBpm').value);
+      const cutoff = parseFloat(document.getElementById('sliderCutoff').value);
+      const lastivka = parseFloat(document.getElementById('sliderLastivka').value);
+      const bells = parseFloat(document.getElementById('sliderBells').value);
+      const vol = parseFloat(document.getElementById('sliderVol').value);
+
+      document.getElementById('valTension').innerText = `${tension}%`;
+      document.getElementById('valLevel').innerText = level;
+      document.getElementById('valApm').innerText = apm.toFixed(1);
+      document.getElementById('valBpm').innerText = bpm.toFixed(0);
+      document.getElementById('valCutoff').innerText = `${cutoff.toFixed(0)} Hz`;
+      document.getElementById('valLastivka').innerText = `${lastivka}%`;
+      document.getElementById('valBells').innerText = `${bells}%`;
+      document.getElementById('valVol').innerText = `${vol}%`;
+
+      // Apply to DSP targets
+      targetTension = tension / 100.0;
+      targetBpm = bpm;
+      targetCutoff = cutoff;
+      targetLastivkaGain = lastivka / 100.0;
+      targetBellsGain = bells / 100.0;
+      masterVol = vol / 100.0;
+    }
+
+    // Presets
+    function applyPreset(name) {
+      document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active-preset'));
+      event.target.classList.add('active-preset');
+
+      if (name === 'calm') {
+        document.getElementById('sliderTension').value = 15;
+        document.getElementById('sliderLevel').value = 1;
+        document.getElementById('sliderBpm').value = 120;
+        document.getElementById('sliderCutoff').value = 1200;
+        document.getElementById('sliderLastivka').value = 0;
+        document.getElementById('sliderBells').value = 30;
+      } else if (name === 'speed') {
+        document.getElementById('sliderTension').value = 45;
+        document.getElementById('sliderLevel').value = 5;
+        document.getElementById('sliderBpm').value = 128;
+        document.getElementById('sliderCutoff').value = 2100;
+        document.getElementById('sliderLastivka').value = 35;
+        document.getElementById('sliderBells').value = 45;
+      } else if (name === 'danger') {
+        document.getElementById('sliderTension').value = 85;
+        document.getElementById('sliderLevel').value = 9;
+        document.getElementById('sliderBpm').value = 136;
+        document.getElementById('sliderCutoff').value = 3200;
+        document.getElementById('sliderLastivka').value = 70;
+        document.getElementById('sliderBells').value = 75;
+      } else if (name === 'polyphony') {
+        document.getElementById('sliderTension').value = 40;
+        document.getElementById('sliderLevel').value = 4;
+        document.getElementById('sliderBpm').value = 126;
+        document.getElementById('sliderCutoff').value = 2200;
+        document.getElementById('sliderLastivka').value = 100; // 100% Soprano
+        document.getElementById('sliderBells').value = 60;
+      } else if (name === 'cathedral') {
+        document.getElementById('sliderTension').value = 30;
+        document.getElementById('sliderLevel').value = 3;
+        document.getElementById('sliderBpm').value = 124;
+        document.getElementById('sliderCutoff').value = 1600;
+        document.getElementById('sliderLastivka').value = 50;
+        document.getElementById('sliderBells').value = 100; // 100% Cathedral Bells
+      }
+
+      updateParams();
+    }
+
+    // Trigger Ducking (-8dB)
+    function triggerTetrisClear() {
+      const btn = document.getElementById('duckBtn');
+      btn.classList.add('active');
+      targetDuckGain = 0.38; // -8.4 dB dip
+      setTimeout(() => {
+        targetDuckGain = 1.0;
+        btn.classList.remove('active');
+      }, 350);
+    }
+
+    // Trigger Tape Stop
+    let tapeStopAnim = null;
+    function triggerTapeStop() {
+      const btn = document.getElementById('stopBtn');
+      btn.classList.add('active');
+
+      let start = performance.now();
+      const dur = 1800; // 1.8s analog tape slowdown
+
+      function dive(now) {
+        let p = (now - start) / dur;
+        if (p < 1.0) {
+          pitchMult = Math.max(0.001, 1.0 - Math.pow(p, 1.5));
+          tapeStopAnim = requestAnimationFrame(dive);
+        } else {
+          pitchMult = 0.001;
+          setTimeout(() => {
+            pitchMult = 1.0; // Reset
+            btn.classList.remove('active');
+          }, 800);
+        }
+      }
+      tapeStopAnim = requestAnimationFrame(dive);
+    }
+
+    // Visualizer Loop
+    function drawScope() {
+      if (!isPlaying) return;
+
+      scopeCanvas.width = scopeCanvas.clientWidth;
+      scopeCanvas.height = scopeCanvas.clientHeight;
+      const w = scopeCanvas.width;
+      const h = scopeCanvas.height;
+
+      scopeCtx.fillStyle = 'rgba(7, 9, 19, 0.4)';
+      scopeCtx.fillRect(0, 0, w, h);
+
+      scopeCtx.lineWidth = 2;
+      scopeCtx.strokeStyle = '#f59e0b';
+      scopeCtx.shadowBlur = 8;
+      scopeCtx.shadowColor = '#fbbf24';
+
+      scopeCtx.beginPath();
+      const sliceW = w / scopeData.length;
+      let x = 0;
+
+      for (let i = 0; i < scopeData.length; i++) {
+        const v = scopeData[i];
+        const y = (h / 2) + v * (h / 2.2);
+        if (i === 0) scopeCtx.moveTo(x, y);
+        else scopeCtx.lineTo(x, y);
+        x += sliceW;
+      }
+      scopeCtx.stroke();
+
+      // Update LED tracker
+      if (typeof window.activeStepLed === 'number') {
+        for (let s = 0; s < 12; s++) {
+          const el = document.getElementById(`led-${s}`);
+          if (el) {
+            if (s === window.activeStepLed) el.classList.add('active');
+            else el.classList.remove('active');
+          }
+        }
+      }
+
+      requestAnimationFrame(drawScope);
+    }
+  </script>
+</body>
+</html>
