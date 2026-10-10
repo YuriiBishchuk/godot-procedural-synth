@@ -10,7 +10,7 @@
     <PackageId>GodotProceduralSynth</PackageId>
     <Version>1.0.0</Version>
     <Authors>Yurii Bishchuk</Authors>
-    <Description>Pure real-time procedural audio synthesis engine for Godot 4 (C# / .NET) with dynamic adaptive arrangement and Cyber-Shchedryk motifs.</Description>
+    <Description>Universal real-time procedural audio and music synthesis engine for Godot 4 (C# / .NET) with dynamic adaptive arrangement and SFX generation.</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/YuriiBishchuk/godot-procedural-synth</RepositoryUrl>
   </PropertyGroup>

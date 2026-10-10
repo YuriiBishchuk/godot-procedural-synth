@@ -724,18 +724,20 @@ public class UniversalSynthEngine
 
     /// <summary>
     /// Generates audio frames in real time without phase resets.
-    /// Used by Godot AudioStreamGenerator in AdaptiveMusicEngine.
+    /// Used by Godot AudioStreamGenerator for continuous procedural audio.
     /// </summary>
     public void GenerateStreamBlock(float[] left, float[] right, int count, GameplayAudioContext ctx)
+        => GenerateStreamBlock(left, right, count, ctx.ToAdaptiveContext());
+
+    /// <summary>
+    /// Generates audio frames in real time without phase resets using universal adaptive context.
+    /// </summary>
+    public void GenerateStreamBlock(float[] left, float[] right, int count, AdaptiveAudioContext ctx)
     {
         double dt = 1.0 / SampleRate;
-        float heightNorm = Math.Clamp(ctx.TowerHeight / 15.0f, 0.0f, 1.0f);
-        float holesNorm = Math.Clamp(ctx.HoleCount / 6.0f, 0.0f, 1.0f);
-        float apmNorm = Math.Clamp((float)ctx.Apm / 3.5f, 0.0f, 1.0f);
-        double rawTension = Math.Clamp(heightNorm * 0.55f + holesNorm * 0.25f + apmNorm * 0.20f, 0.0f, 1.0f);
-
-        double targetDuckGain = ctx.TetrisDucking ? 0.35 : 1.0;
-        double pitchMult = Math.Clamp(ctx.GameOverPitch, 0.001, 1.5);
+        double rawTension = Math.Clamp(ctx.Tension * 0.6f + ctx.Dissonance * 0.2f + (float)(ctx.ActivityRate / 3.5) * 0.2f, 0.0f, 1.0f);
+        double targetDuckGain = ctx.IsDucking ? 0.35 : 1.0;
+        double pitchMult = Math.Clamp(ctx.PitchScale, 0.001, 1.5);
 
         double[] shchedrykMelody =
         {
@@ -765,7 +767,7 @@ public class UniversalSynthEngine
         for (int i = 0; i < count; i++)
         {
             _streamSmoothedTension += (rawTension - _streamSmoothedTension) * (1.0 - Math.Exp(-dt / 0.50));
-            double targetBpm = 120.0 + (ctx.Level - 1) * 1.5 + apmNorm * 6.0 + _streamSmoothedTension * 6.0;
+            double targetBpm = 120.0 + (ctx.IntensityLevel - 1) * 1.5 + (ctx.ActivityRate / 3.5) * 6.0 + _streamSmoothedTension * 6.0;
             _streamCurrentBpm += (targetBpm - _streamCurrentBpm) * (1.0 - Math.Exp(-dt / 0.80));
             _streamCurrentDuckGain += (targetDuckGain - _streamCurrentDuckGain) * (1.0 - Math.Exp(-dt / 0.04));
 

@@ -201,4 +201,53 @@ public class AudioSynthesisTests
             Assert.Equal(left.Length, right.Length);
         }
     }
+
+    [Fact]
+    public void ProceduralSfx_AllPresetsGenerateValidAudioWithoutClipping()
+    {
+        var presets = Enum.GetValues<SfxType>();
+        foreach (var type in presets)
+        {
+            var samples = ProceduralSfx.Generate(type);
+            Assert.True(samples.Length > 0, $"SFX {type} produced empty buffer");
+
+            float peak = 0f;
+            for (int i = 0; i < samples.Length; i++)
+            {
+                Assert.False(float.IsNaN(samples[i]), $"NaN in SFX {type} at index {i}");
+                peak = MathF.Max(peak, MathF.Abs(samples[i]));
+                Assert.InRange(samples[i], -1.0f, 1.0f);
+            }
+
+            Assert.True(peak > 0.05f, $"SFX {type} was too quiet (peak: {peak})");
+            Assert.True(peak <= 1.0f, $"SFX {type} clipped beyond 1.0 (peak: {peak})");
+        }
+    }
+
+    [Fact]
+    public void AdaptiveAudioContext_GeneratesCleanStreamBlocks()
+    {
+        var engine = new UniversalSynthEngine();
+        var ctx = new AdaptiveAudioContext
+        {
+            IntensityLevel = 5,
+            Tension = 0.75f,
+            Dissonance = 0.3f,
+            ActivityRate = 2.5,
+            IsDucking = false,
+            PitchScale = 1.0
+        };
+
+        var left = new float[1024];
+        var right = new float[1024];
+        engine.GenerateStreamBlock(left, right, 1024, ctx);
+
+        for (int i = 0; i < 1024; i++)
+        {
+            Assert.False(float.IsNaN(left[i]));
+            Assert.False(float.IsNaN(right[i]));
+            Assert.InRange(left[i], -1.0f, 1.0f);
+            Assert.InRange(right[i], -1.0f, 1.0f);
+        }
+    }
 }

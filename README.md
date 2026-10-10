@@ -1,81 +1,125 @@
-# GodotProceduralSynth 🎹🇺🇦
+# GodotProceduralSynth 🎹
 
 [![.NET Version](https://img.shields.io/badge/.NET-8.0%20%7C%209.0%20%7C%2010.0-512BD4?logo=dotnet)](https://dotnet.microsoft.com/)
 [![Godot Engine](https://img.shields.io/badge/Godot-4.x%20C%23-478CBF?logo=godotengine&logoColor=white)](https://godotengine.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Dependencies](https://img.shields.io/badge/Dependencies-Zero-brightgreen)](#)
 
-A high-performance, real-time procedural audio synthesizer library in C# for **Godot 4** and standalone .NET applications.
+**GodotProceduralSynth** is a universal, high-performance procedural audio and music synthesis library for **Godot 4** and modern C# (.NET 8 / 9 / 10).
 
-Synthesizes interactive, adaptive music in 100% real-time using Godot's `AudioStreamGenerator` with **zero static audio assets**, zero WAV/MP3 files, and zero disk overhead. Features the iconic **Ukrainian Cyber-Shchedryk** (Carol of the Bells motif in D-minor), darksynth/cyberpunk aesthetics, warm analog Juno-106 chorus filters, Moog ladders, and dynamic gameplay modulation.
-
----
-
-## ✨ Features
-
-- **⚡ 100% Real-Time Synthesis**: Streams audio blocks directly into Godot's `AudioStreamGeneratorPlayback` without pre-rendering or disk I/O.
-- **🇺🇦 Cyber-Shchedryk Motif**: Authentic procedural arrangement of Mykola Leontovych's *Shchedryk* in D-minor modulated by electronic kick/snare grooves, sub-bass, and polyphonic arpeggios.
-- **🎮 Adaptive Gameplay Modulation**:
-  - **Dynamic BPM & Intensity**: Scales tempo and drum complexity with game level / speed.
-  - **Tension Cutoff Filter**: Real-time Juno-106 low-pass filter opening as danger/tower height increases.
-  - **APM Arp Density**: Fast player input dynamically drives arpeggiator velocity and sub-bass groove.
-  - **Sidechain Ducking**: Instant -8 dB dip on line clears / combo hits with smooth analog release.
-  - **Game Over Tape-Stop**: Realistic analog tape-stop pitch dive when the match concludes.
-- **🎛️ Studio-Grade DSP Pipeline**:
-  - Bandlimited PolyBLEP oscillators (Saw, Pulse/PWM, Triangle, Sine).
-  - 4-pole cascaded resonant filters with drive saturation.
-  - Stereo spread chorus and multi-tap spatial delay diffusion.
-  - Headroom-protected soft saturation limiter preserving 0 dBFS margin without digital clipping.
-- **📦 Zero Dependencies**: Pure managed C# (.NET 8/9/10). No native C++ wrappers, external DLLs, or NuGet bloat.
+It allows game developers to generate **any sound effect, ambient atmosphere, or full adaptive dynamic soundtrack** in 100% real time — with **zero audio files on disk**, zero sample loading lag, and zero memory overhead.
 
 ---
 
-## 📂 Repository Structure
+## 🌟 Why Procedural Audio?
 
-```
-godot-procedural-synth/
-├── src/
-│   └── GodotProceduralSynth/        # Core synthesizer library (.NET 8/9/10)
-│       ├── UniversalSynthEngine.cs  # Real-time stream generation & voice manager
-│       ├── DspUtils.cs              # PolyBLEP oscillators, Moog/Juno filters, DSP analyzer
-│       ├── SynthTypes.cs            # Aesthetic modes, context data structures
-│       └── TrackRecipe.cs           # 50-track procedural catalog recipes
-├── samples/
-│   ├── AudioSynthHarness/           # Standalone CLI runner to test & export WAVs
-│   │   └── Program.cs
-│   └── GodotIntegration/            # Copy-paste Godot 4 Node example
-│       ├── AdaptiveMusicEngine.cs   # AudioStreamGenerator integration
-│       └── README.md
-├── tests/
-│   └── GodotProceduralSynth.Tests/  # xUnit test suite (Headroom, Harshness, DSP)
-│       └── AudioSynthesisTests.cs
-└── GodotProceduralSynth.sln
+| Traditional Audio Assets | GodotProceduralSynth |
+|---|---|
+| Hundreds of megabytes of `.wav` / `.mp3` files | **Zero audio files** (pure mathematical DSP in code) |
+| Repetitive, static loops | **Endlessly evolving**, reactive to player action |
+| Disk read latency and memory caches | **Immediate streaming** into Godot's audio bus |
+| Difficult to pitch/modulate without artifacts | **Real-time filter sweeps, ducking, and tempo changes** |
+
+---
+
+## 🚀 Key Modules
+
+### 1. 💥 `ProceduralSfx` — Instant Sound Effects
+Generate classic arcade and modern sound effects with a single line of code, or customize them parametrically:
+
+```csharp
+using GodotProceduralSynth;
+
+// Preset SFX (Lasers, Explosions, Hits, Jumps, Coins, UI Clicks, Whooshes)
+float[] laser = ProceduralSfx.Generate(SfxType.Laser);
+float[] boom  = ProceduralSfx.Generate(SfxType.Explosion);
+float[] coin  = ProceduralSfx.Generate(SfxType.Coin);
+
+// Custom parameterized sound design
+float[] customSfx = ProceduralSfx.GenerateCustom(new SfxParameters
+{
+    StartFreq = 900.0,
+    EndFreq = 120.0,
+    Duration = 0.15,
+    NoiseMix = 0.4,
+    Distortion = 0.3,
+    DecayRate = 22.0
+});
 ```
 
+### 2. 🎵 `UniversalSynthEngine` — Adaptive Music Synthesis
+Synthesizes continuous stereo audio blocks with studio-grade DSP:
+- **Bandlimited PolyBLEP Oscillators** (Saw, Pulse/PWM, Triangle, Sine, Noise)
+- **4-Pole Resonant Filters** (Warm analog Juno-106 sweeps, Moog ladder low-pass)
+- **Stereo Chorus & Delay Diffusion** (Rich wide stereo field without mono phase cancellation)
+- **Soft Saturation Limiter** (Guarantees zero digital clipping and preserves 0 dBFS headroom)
+- **Dynamic Ducking & Tape-Stop** (-8 dB sidechain dips and analog turntable spin-downs)
+
+### 3. 🎮 `AdaptiveAudioContext` — Reactive Game Modulation
+Feed your game state into the music engine to morph the soundtrack in real time:
+
+```csharp
+var context = new AdaptiveAudioContext
+{
+    IntensityLevel = playerLevel,  // Modulates BPM & drum complexity
+    Tension = dangerRatio,         // Opens resonant filter cutoff (0.0 = calm, 1.0 = panic)
+    Dissonance = hazardRatio,      // Introduces harmonic grit & dark sub-harmonics
+    ActivityRate = inputApm,       // Drives arpeggio velocity and sub-bass groove
+    IsDucking = scoredHit,         // Smooth -8dB sidechain dip on hits/combos
+    PitchScale = timeScale         // Pitch bend (1.0 = normal, 0.0 = tape-stop game over)
+};
+
+engine.GenerateStreamBlock(leftBuffer, rightBuffer, count, context);
+```
+
+### 4. 📜 `TrackRecipe` — Declarative Recipe System
+Create entirely new musical styles declaratively or choose from the **50+ built-in catalog recipes**:
+- **Darksynth & Cyberpunk 2077**: Driving rolling 16th-note basslines, aggressive lead stabs
+- **Industrial & Mid-Tempo**: Devastating half-time stomps, heavy distortion growls
+- **Retro Arcade**: Nostalgic chiptune arpeggios, walking Moog basslines
+- **Ambient & Atmospheric**: Evolving detuned pads and deep drone soundscapes
+- **Folk & Thematic Presets**: Includes the demo preset **Cyber-Shchedryk** (*Carol of the Bells* motif in D-minor)
+
+```csharp
+var recipe = new TrackRecipe
+{
+    Title = "Neon Highway",
+    Category = "Synthwave",
+    Bpm = 128.0,
+    RootFreq = 65.41, // C2
+    BassPattern = BassPattern.Rolling16th,
+    DrumPattern = DrumPattern.FourOnTheFloor,
+    LeadStyle = LeadStyle.CyberArp,
+    FilterCutoff = 2400.0,
+    FilterResonance = 1.4
+};
+
+var (left, right) = engine.RenderFromRecipe(recipe);
+```
+
 ---
 
-## 🚀 Quick Start in Godot 4 (C#)
+## 🔌 Integration with Godot 4 (C#)
 
-### 1. Add Reference to your Godot project
-Reference `GodotProceduralSynth.csproj` or compile it into a DLL and drop it into your Godot project folder:
-
+### Step 1: Reference the Library
+Add `GodotProceduralSynth` to your game's `.csproj`:
 ```xml
 <ItemGroup>
-  <ProjectReference Include="../godot-procedural-synth/src/GodotProceduralSynth/GodotProceduralSynth.csproj" />
+  <ProjectReference Include="path/to/GodotProceduralSynth/src/GodotProceduralSynth/GodotProceduralSynth.csproj" />
 </ItemGroup>
 ```
 
-### 2. Create the Stream Player Node
-In your Godot C# script:
+### Step 2: Use `AudioStreamGenerator`
+Drop `samples/GodotIntegration/AdaptiveMusicEngine.cs` into your project:
 
 ```csharp
 using Godot;
 using GodotProceduralSynth;
 
-public partial class MyMusicController : Node
+public partial class MyAudioController : Node
 {
     private AudioStreamGeneratorPlayback _playback;
-    private readonly UniversalSynthEngine _synth = new();
+    private readonly UniversalSynthEngine _engine = new();
     private readonly float[] _bufL = new float[1024];
     private readonly float[] _bufR = new float[1024];
 
@@ -98,21 +142,12 @@ public partial class MyMusicController : Node
         int available = _playback.GetFramesAvailable();
         if (available <= 0) return;
 
-        int count = System.Math.Min(available, _bufL.Length);
+        int toGenerate = System.Math.Min(available, _bufL.Length);
 
-        var context = new GameplayAudioContext
-        {
-            Level = 3,
-            TowerHeight = 8,
-            HoleCount = 2,
-            Apm = 2.4,
-            TetrisDucking = false
-        };
+        // Continuous procedural streaming with zero phase clicks
+        _engine.GenerateStreamBlock(_bufL, _bufR, toGenerate, AdaptiveAudioContext.Default);
 
-        // Generates continuous stereo frames with zero phase clicks
-        _synth.GenerateStreamBlock(_bufL, _bufR, count, context);
-
-        for (int i = 0; i < count; i++)
+        for (int i = 0; i < toGenerate; i++)
         {
             _playback.PushFrame(new Vector2(_bufL[i], _bufR[i]));
         }
@@ -122,22 +157,48 @@ public partial class MyMusicController : Node
 
 ---
 
-## 🧪 Testing & Verification
+## 🛠️ Standalone CLI Demo Harness
 
-Run the test suite covering headroom verification, spectral harshness analysis, and buffer continuity:
+You can test and render samples on desktop without running Godot:
+
+```bash
+# Run the demo harness (renders SFX and music samples to ./output/)
+dotnet run --project samples/AudioSynthHarness/AudioSynthHarness.csproj
+```
+
+---
+
+## 🧪 Unit Tests
+
+Run the test suite verifying mathematical safety, headroom preservation, and zero digital clipping:
 
 ```bash
 dotnet test
 ```
 
-Run the standalone audio demo harness to generate sample audio files:
+---
 
-```bash
-dotnet run --project samples/AudioSynthHarness/AudioSynthHarness.csproj
+## 📂 Project Structure
+
+```
+godot-procedural-synth/
+├── src/
+│   └── GodotProceduralSynth/        # Core library (.NET 8/9/10, zero dependencies)
+│       ├── UniversalSynthEngine.cs  # Real-time multi-voice polyphonic audio generator
+│       ├── ProceduralSfx.cs         # Universal SFX generator (Lasers, Hits, Explosions...)
+│       ├── DspUtils.cs              # PolyBLEP oscillators, 4-pole filters, limiter
+│       ├── SynthTypes.cs            # Universal AdaptiveAudioContext & aesthetic enums
+│       └── TrackRecipe.cs           # Declarative 50-track catalog recipe engine
+├── samples/
+│   ├── AudioSynthHarness/           # Standalone CLI test harness
+│   └── GodotIntegration/            # Copy-paste Godot 4 C# streaming node & docs
+├── tests/
+│   └── GodotProceduralSynth.Tests/  # Comprehensive xUnit test suite (10/10 passing)
+└── GodotProceduralSynth.sln
 ```
 
 ---
 
 ## 📄 License
 
-Licensed under the [MIT License](LICENSE). Free for commercial and non-commercial game development.
+Licensed under the [MIT License](LICENSE). Free for both commercial and open-source game development.
