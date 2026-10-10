@@ -1,11 +1,12 @@
-# GodotProceduralSynth 🎹
+# GodotProceduralSynth 🎹 🇺🇦
 
+[![Made in Ukraine](https://img.shields.io/badge/Made%20in-Ukraine%20%F0%9F%87%BA%F0%9F%87%A6-ffd700?labelColor=0057b7)](https://github.com/YuriiBishchuk/godot-procedural-synth)
 [![.NET Version](https://img.shields.io/badge/.NET-8.0%20%7C%209.0%20%7C%2010.0-512BD4?logo=dotnet)](https://dotnet.microsoft.com/)
 [![Godot Engine](https://img.shields.io/badge/Godot-4.x%20C%23-478CBF?logo=godotengine&logoColor=white)](https://godotengine.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Dependencies](https://img.shields.io/badge/Dependencies-Zero-brightgreen)](#)
 
-**GodotProceduralSynth** is a universal, high-performance procedural audio and music synthesis library for **Godot 4** and modern C# (.NET 8 / 9 / 10).
+**GodotProceduralSynth** is a universal, high-performance procedural audio and music synthesis library for **Godot 4** and modern C# (.NET 8 / 9 / 10), proudly developed as an open-source project in Ukraine 🇺🇦.
 
 It allows game developers to generate **any sound effect, ambient atmosphere, or full adaptive dynamic soundtrack** in 100% real time — with **zero audio files on disk**, zero sample loading lag, and zero memory overhead.
 
@@ -19,6 +20,27 @@ It allows game developers to generate **any sound effect, ambient atmosphere, or
 | Repetitive, static loops | **Endlessly evolving**, reactive to player action |
 | Disk read latency and memory caches | **Immediate streaming** into Godot's audio bus |
 | Difficult to pitch/modulate without artifacts | **Real-time filter sweeps, ducking, and tempo changes** |
+
+---
+
+## 🇺🇦 Flagship Showcase Example: Cyber-Shchedryk
+
+To demonstrate the full adaptive capabilities of the engine, the library includes a complete reference implementation of **Cyber-Shchedryk** — a dark electronic procedural re-imagining of Mykola Leontovych's iconic Ukrainian *Shchedryk* (*Carol of the Bells* motif in D-minor).
+
+This showcase demonstrates how the library handles complex multi-layered procedural audio:
+- **Procedural 4-Note Ostinato**: Mathematically synthesized bell lead voices with Juno-106 analog chorus diffusion.
+- **Adaptive Groove Escalation**: Transitions seamlessly from a subtle sub-bass pulse to full 4-on-the-floor electro and high-velocity double-kicks as tension rises.
+- **Dynamic Filter Sweeps**: 4-pole Moog ladder low-pass filters open dynamically with player speed and in-game danger.
+- **Zero Phase Discontinuities**: Completely click-free streaming across arbitrary block boundaries.
+
+```csharp
+// Instant 1-line generation of the Cyber-Shchedryk showcase:
+var (left, right) = engine.RenderTrack(
+    SynthAesthetic.UkrainianCyberShchedryk, 
+    AdaptiveAudioContext.Default, 
+    durationSeconds: 15.0
+);
+```
 
 ---
 
@@ -78,7 +100,7 @@ Create entirely new musical styles declaratively or choose from the **50+ built-
 - **Industrial & Mid-Tempo**: Devastating half-time stomps, heavy distortion growls
 - **Retro Arcade**: Nostalgic chiptune arpeggios, walking Moog basslines
 - **Ambient & Atmospheric**: Evolving detuned pads and deep drone soundscapes
-- **Folk & Thematic Presets**: Includes the demo preset **Cyber-Shchedryk** (*Carol of the Bells* motif in D-minor)
+- **Folk & Ukrainian Themes**: Includes the Cyber-Shchedryk showcase recipe and variations
 
 ```csharp
 var recipe = new TrackRecipe
