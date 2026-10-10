@@ -318,7 +318,7 @@ public class UniversalSynthEngine
                 Id = id++,
                 Title = doomTitles[i],
                 Category = "DoomCyberpunk",
-                Description = "Argent metal palm-mute chug + neon darksynth pulse. Важкий ударний панч без кліпінгу.",
+                Description = "Argent metal palm-mute chugs + neon darksynth pulse. Heavy punchy transients without clipping.",
                 Bpm = 124.0 + (i % 5) * 3.0,
                 RootFreq = 73.42, // D2
                 BassDrive = 1.8 + (i % 3) * 0.3,
@@ -342,7 +342,7 @@ public class UniversalSynthEngine
                 Id = id++,
                 Title = cyberpunkTitles[i],
                 Category = "Darksynth2077",
-                Description = "Клубний darksynth Night City: швидкий 16-нотний аналоговий бас, неонові арпеджіо, сайдчейн.",
+                Description = "Night City club darksynth: rapid 16th-note analog bass, neon arpeggios, and aggressive sidechain ducking.",
                 Bpm = 120.0 + (i % 5) * 2.5,
                 RootFreq = (i % 2 == 0) ? 73.42 : 87.31, // D2 or F2
                 BassDrive = 1.4 + (i % 3) * 0.2,
@@ -366,7 +366,7 @@ public class UniversalSynthEngine
                 Id = id++,
                 Title = arcadeTitles[i],
                 Category = "ArcadeRetro",
-                Description = "Енергійний аркадний синтвейв: чиптюн-хвилі, крокуючий Moog бас, ретро-брейкбіт.",
+                Description = "Energetic arcade synthwave: chiptune pulse leads, walking Moog bassline, and retro breakbeats.",
                 Bpm = 122.0 + (i % 5) * 3.0,
                 RootFreq = (i % 2 == 0) ? 110.0 : 73.42, // A2 or D2
                 BassDrive = 1.3,
@@ -390,7 +390,7 @@ public class UniversalSynthEngine
                 Id = id++,
                 Title = industrialTitles[i],
                 Category = "IndustrialMidtempo",
-                Description = "100-106 BPM важкий халф-тайм стомп, глибокий саб-гроул з ламповим насиченням, лазерні стеби.",
+                Description = "100-106 BPM heavy half-time stomp, devastating sub-growl with analog tube saturation, and resonant laser stabs.",
                 Bpm = 98.0 + (i % 5) * 2.0,
                 RootFreq = (i % 2 == 0) ? 82.41 : 73.42, // E2 or D2
                 BassDrive = 2.0,
@@ -414,7 +414,7 @@ public class UniversalSynthEngine
                 Id = id++,
                 Title = ukrainianTitles[i],
                 Category = "UkrainianCyber",
-                Description = "Українська мелодика («Щедрик», козацькі мотиви) у неоновому кіберпанк-саунді Juno-106.",
+                Description = "Ukrainian melodic heritage ('Shchedryk' / Carol of the Bells) in a neon cyberpunk Juno-106 analog synth aesthetic.",
                 Bpm = 124.0 + (i % 5) * 2.0,
                 RootFreq = 73.42, // D2
                 BassDrive = 1.4,
@@ -595,7 +595,7 @@ public class UniversalSynthEngine
     }
     #endregion
 
-    #region Aesthetic 3: Ukrainian Cyber-Shchedryk (Щедрик / Leontovych Cyber-Synthwave)
+    #region Aesthetic 3: Ukrainian Cyber-Shchedryk (Carol of the Bells / Leontovych Cyber-Synthwave)
     public void RenderUkrainianCyberShchedryk(float[] left, float[] right, GameplayAudioContext ctx, int totalSamples)
     {
         float heightNorm = Math.Clamp(ctx.TowerHeight / 15.0f, 0.0f, 1.0f);
@@ -611,7 +611,7 @@ public class UniversalSynthEngine
 
         double pitchMult = Math.Clamp(ctx.GameOverPitch, 0.001, 1.5);
 
-        // Iconic Ukrainian Masterpiece: "Щедрик" (Mykola Leontovych) in D-minor:
+        // Iconic Ukrainian Masterpiece: "Shchedryk" / Carol of the Bells (Mykola Leontovych) in D-minor:
         double[] shchedrykMelody =
         {
             587.33, 523.25, 587.33, 466.16,
