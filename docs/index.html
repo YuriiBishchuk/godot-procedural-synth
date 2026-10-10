@@ -297,6 +297,53 @@
       margin-top: auto;
     }
 
+    .sub-genre-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #cbd5e1;
+      padding: 5px 9px;
+      border-radius: 6px;
+      font-size: 0.70rem;
+      font-family: 'Orbitron', sans-serif;
+      cursor: pointer;
+      transition: all 0.2s;
+      flex: 1;
+      text-align: center;
+    }
+
+    .sub-genre-btn:hover {
+      background: rgba(6, 182, 212, 0.25);
+      border-color: var(--neon-cyan);
+      color: #fff;
+    }
+
+    .sub-genre-btn.active {
+      background: linear-gradient(135deg, #06b6d4, #3b82f6);
+      border-color: #38bdf8;
+      color: #000;
+      font-weight: 800;
+      box-shadow: 0 0 10px rgba(6, 182, 212, 0.4);
+    }
+
+    .legal-disclaimer {
+      margin-top: 18px;
+      padding: 14px 20px;
+      background: rgba(0, 0, 0, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      font-size: 0.8rem;
+      color: #94a3b8;
+      line-height: 1.5;
+      text-align: center;
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .legal-disclaimer strong {
+      color: #e2e8f0;
+    }
+
     /* Panels Grid */
     .panels-2col {
       display: grid;
@@ -623,60 +670,64 @@
         <div class="genre-card active-genre" onclick="selectGenre(0)">
           <div class="genre-card-header">
             <span class="genre-title">🇺🇦 Cyber-Shchedryk</span>
-            <span class="genre-tag">Folk Darksynth</span>
+            <span class="genre-tag">Public Domain Folk</span>
           </div>
           <p class="genre-desc">
-            Authentic Ukrainian Carol of the Bells: 4-note bell ostinato, soprano choral counter-melody ("Lastivka"), inharmonic cathedral bells, and Moog walking bass.
+            Authentic Ukrainian Carol of the Bells (Leontovych 1916): 4-note bell ostinato, soprano choral counter-melody ("Lastivka"), inharmonic cathedral bells, and Moog walking bass.
           </p>
           <span class="genre-badge">140 BPM • D-Minor • Polyphonic Bells</span>
         </div>
 
-        <!-- 2. DOOM: At Doom's Gate (E1M1) -->
+        <!-- 2. Argent Gate (E1M1 Tribute) -->
         <div class="genre-card" onclick="selectGenre(1)">
           <div class="genre-card-header">
-            <span class="genre-title">⚔️ DOOM: E1M1 Gate</span>
-            <span class="genre-tag">Mick Gordon Metal</span>
+            <span class="genre-title">⚔️ Argent Gate</span>
+            <span class="genre-tag">E1M1 Metal Tribute</span>
           </div>
           <p class="genre-desc">
-            Legendary "At Doom's Gate" E1M1 riff: Drop-E power chugs, 2.5x asymmetric tube overdrive, double-kick panic, and chainsaw harmonics.
+            Legendary 1993 sci-fi shooter theme: Drop-E palm-mute power chugs, 2.5x asymmetric tube overdrive, double-kick panic, and screaming chainsaw harmonics.
           </p>
-          <span class="genre-badge">136 BPM • E-Minor • E1M1 Heavy Riff</span>
+          <span class="genre-badge">136 BPM • E-Minor • Drop-E Heavy Riff</span>
         </div>
 
-        <!-- 3. Cyberpunk: Edgerunners Theme -->
+        <!-- 3. Neon Edgerunner (Cyberpunk Tribute) -->
         <div class="genre-card" onclick="selectGenre(2)">
           <div class="genre-card-header">
-            <span class="genre-title">🌃 Edgerunners Theme</span>
-            <span class="genre-tag">Stay At Your House</span>
+            <span class="genre-title">🔥 Neon Edgerunner</span>
+            <span class="genre-tag">Cyberpunk Tribute</span>
           </div>
           <p class="genre-desc">
-            Cyberpunk: Edgerunners anthem ("I Really Want to Stay At Your House"): unmistakable chorus melody, rolling 16th bass, and heavy sidechain pump.
+            High-octane anime darksynth tribute: switch between Franz Ferdinand's twin guitar opening riff and the emotional moon chorus anthem.
           </p>
-          <span class="genre-badge">128 BPM • F#-Major • Edgerunners Hook</span>
+          <div style="display:flex; gap:6px; margin: 8px 0;">
+            <button id="edgSubBtn0" class="sub-genre-btn active" onclick="setEdgerunnerSub(event, 0)">⚡ Opening: This Fffire (146 BPM)</button>
+            <button id="edgSubBtn1" class="sub-genre-btn" onclick="setEdgerunnerSub(event, 1)">🌙 Moon: Stay At Your House (125 BPM)</button>
+          </div>
+          <span class="genre-badge" id="edgBadge">146 BPM • D-Minor • Twin Guitar Lead</span>
         </div>
 
-        <!-- 4. Retro 8-Bit Arcade: Mega Man 2 - Dr. Wily Stage 1 -->
+        <!-- 4. 8-Bit Castle (Wily Stage Tribute) -->
         <div class="genre-card" onclick="selectGenre(3)">
           <div class="genre-card-header">
-            <span class="genre-title">🕹️ Mega Man: Wily Stage</span>
-            <span class="genre-tag">8-Bit NES Classic</span>
+            <span class="genre-title">🕹️ 8-Bit Castle</span>
+            <span class="genre-tag">Wily Stage Tribute</span>
           </div>
           <p class="genre-desc">
-            Legendary 1988 Capcom anthem (Mega Man 2 - Dr. Wily's Castle): blistering 50% square chiptune lead, galloping 16th bass, and high-speed arcade drums.
+            Legendary 1988 NES Capcom chiptune anthem: blistering 50% duty-cycle square lead, galloping 16th pulse bass, and high-speed arcade breakbeat drums.
           </p>
-          <span class="genre-badge">148 BPM • D-Minor • Wily Stage 1</span>
+          <span class="genre-badge">148 BPM • D-Minor • 8-Bit NES Chiptune</span>
         </div>
 
-        <!-- 5. Industrial: Gesaffelstein / Rezz -->
+        <!-- 5. Obsidian Stomp (Industrial Mid-Tempo) -->
         <div class="genre-card" onclick="selectGenre(4)">
           <div class="genre-card-header">
-            <span class="genre-title">🌌 Industrial Obsidian</span>
-            <span class="genre-tag">Gesaffelstein Stomp</span>
+            <span class="genre-title">🌌 Obsidian Stomp</span>
+            <span class="genre-tag">Industrial Mid-Tempo</span>
           </div>
           <p class="genre-desc">
-            Brooding 100 BPM half-time stomp: devastating analog sub-growl with long exponential decay, resonant laser stabs, and gated industrial claps.
+            Brooding 100 BPM half-time stomp in the style of Gesaffelstein & Rezz: cavernous analog sub-growl, resonant laser stabs, and gated industrial claps.
           </p>
-          <span class="genre-badge">100 BPM • D-Minor • Sub-Growl</span>
+          <span class="genre-badge">100 BPM • D-Minor • Analog Sub-Growl</span>
         </div>
       </div>
     </div>
@@ -967,6 +1018,10 @@ public partial class ProceduralMusicPlayer : Node
     <p style="margin-top: 6px; font-size: 0.85rem; color: #64748b;">
       Engine: GodotProceduralSynth v1.0.0 • Pure C# .NET WebAssembly & Real-Time Web Audio DSP
     </p>
+    <div class="legal-disclaimer">
+      <strong>🛡️ Educational & Open-Source Tribute Notice:</strong>
+      All synthesized music sequences and audio DSP recipes are algorithmic mathematical models generated in real-time in WebAssembly / Web Audio with zero recorded audio files or samples. Musical themes are educational stylistic homages and tributes. Mykola Leontovych's <em>Shchedryk</em> (1916) is in the Public Domain worldwide. All original video game and musical trademarks belong to their respective copyright holders.
+    </div>
   </footer>
 
   <!-- REAL-TIME SYNTHESIS JAVASCRIPT ENGINE -->
@@ -983,13 +1038,15 @@ public partial class ProceduralMusicPlayer : Node
 
     // Global DSP Telemetry Variables (smoothed in real time)
     let curBpm = 140.0, targetBpm = 140.0;
-    let curCutoff = 2200.0, targetCutoff = 2200.0;
-    let curTension = 0.30, targetTension = 0.30;
-    let curLastivkaGain = 0.65, targetLastivkaGain = 0.65;
-    let curBellsGain = 0.55, targetBellsGain = 0.55;
+    let curCutoff = 2400.0, targetCutoff = 2400.0;
+    let curTension = 0.35, targetTension = 0.35;
+    let curLevel = 5.0, targetLevel = 5.0;
+    let curLastivkaGain = 0.70, targetLastivkaGain = 0.70;
+    let curBellsGain = 0.60, targetBellsGain = 0.60;
     let curDuckGain = 1.0, targetDuckGain = 1.0;
     let masterVol = 0.85;
     let pitchMult = 1.0;
+    let edgerunnerSubMode = 0; // 0 = This Fffire (146 BPM), 1 = Stay At Your House (125 BPM)
 
     // Oscillator phase accumulators
     let beatPhase = 0.0;
@@ -1013,10 +1070,10 @@ public partial class ProceduralMusicPlayer : Node
     let bellFreq = 146.83;
 
     // =========================================================================
-    // 5 UNMISTAKABLE ICONIC VIDEO GAME THEMES & MELODIES
+    // 5 UNMISTAKABLE ICONIC VIDEO GAME THEMES & MELODIES (PROCEDURAL DSP ONLY)
     // =========================================================================
 
-    // 1. Ukrainian Cyber-Shchedryk: Carol of the Bells (Mykola Leontovych)
+    // 1. Ukrainian Cyber-Shchedryk: Carol of the Bells (Mykola Leontovych 1916 - Public Domain)
     const ostinatoMelody = [587.33, 523.25, 587.33, 466.16]; // D5, C5, D5, Bb4
     const sopranoMelody = [
       880.00, 0, 880.00, 0, 880.00, 0, 880.00, 0, 698.46, 0, 698.46, 0, 698.46, 0, 698.46, 0,
@@ -1031,41 +1088,56 @@ public partial class ProceduralMusicPlayer : Node
       73.42, 58.27, 55.00, 73.42
     ];
 
-    // 2. DOOM: "At Doom's Gate" (E1M1 / Bobby Prince & Mick Gordon)
+    // 2. Argent Gate: E1M1 Heavy Metal Tribute (Bobby Prince / Mick Gordon)
     // The unmistakable 16th-note Drop-E power chug riff:
-    // E2, E2, E3, E2, E2, D3, E2, E2, C3, E2, E2, Bb2, B2, C3, E2, E2
     const doomRiff = [
       82.41, 82.41, 164.81, 82.41, 82.41, 146.83, 82.41, 82.41,
       130.81, 82.41, 82.41, 116.54, 123.47, 130.81, 82.41, 82.41
     ];
 
-    // 3. Cyberpunk: Edgerunners | "I Really Want to Stay At Your House" (Rosa Walton / Hallie Coggins)
-    // The exact, iconic chorus vocal hook:
-    // "So what do you wanna do, what's your point-of-view / I really want to stay at your house..."
-    const edgerunnersHook = [
-      622.25, 622.25, 622.25, 622.25, 622.25, 659.25, 622.25, 493.88, // "So what do you wanna"
-      493.88, 493.88, 0.0,    466.16, 415.30, 369.99, 369.99, 415.30, // "do, what's your point of"
-      739.99, 739.99, 739.99, 739.99, 830.61, 830.61, 739.99, 739.99, // "view? I really"
-      622.25, 622.25, 554.37, 493.88, 493.88, 554.37, 554.37, 493.88  // "want to stay at your house"
+    // 3A. Neon Edgerunner: "This Fffire" Opening Riff (Franz Ferdinand Tribute - 146 BPM)
+    // 64 16th-note steps (4 full bars of 4/4): Twin guitar lead harmony
+    const fffireLead1 = [
+      349.23, 0.0, 349.23, 0.0,  0.0, 0.0, 0.0, 0.0,  392.00, 0.0, 392.00, 0.0,  0.0, 0.0, 0.0, 0.0,
+      440.00, 0.0, 440.00, 0.0,  0.0, 0.0, 0.0, 0.0,  587.33, 0.0, 587.33, 0.0,  0.0, 0.0, 0.0, 0.0,
+      392.00, 0.0, 392.00, 0.0,  0.0, 0.0, 0.0, 0.0,  440.00, 0.0, 440.00, 0.0,  0.0, 0.0, 0.0, 0.0,
+      466.16, 0.0, 466.16, 0.0,  0.0, 0.0, 0.0, 0.0,  659.25, 0.0, 659.25, 0.0,  0.0, 0.0, 0.0, 0.0
     ];
-    // Edgerunners Synthwave Bass (B Major -> F# Major -> D# minor -> C# Major):
-    const edgerunnersBass = [
-      61.74, 61.74, 123.47, 61.74, 61.74, 123.47, 61.74, 123.47, // B Major
-      92.50, 92.50, 185.00, 92.50, 92.50, 185.00, 92.50, 185.00, // F# Major
-      77.78, 77.78, 155.56, 77.78, 77.78, 155.56, 77.78, 155.56, // D# minor
-      69.30, 69.30, 138.59, 69.30, 69.30, 138.59, 69.30, 138.59  // C# Major
+    const fffireLead2 = [
+      293.66, 0.0, 293.66, 0.0,  0.0, 0.0, 0.0, 0.0,  329.63, 0.0, 329.63, 0.0,  0.0, 0.0, 0.0, 0.0,
+      349.23, 0.0, 349.23, 0.0,  0.0, 0.0, 0.0, 0.0,  440.00, 0.0, 440.00, 0.0,  0.0, 0.0, 0.0, 0.0,
+      329.63, 0.0, 329.63, 0.0,  0.0, 0.0, 0.0, 0.0,  349.23, 0.0, 349.23, 0.0,  0.0, 0.0, 0.0, 0.0,
+      392.00, 0.0, 392.00, 0.0,  0.0, 0.0, 0.0, 0.0,  392.00, 0.0, 392.00, 0.0,  0.0, 0.0, 0.0, 0.0
+    ];
+    const fffireBass = [
+      73.42, 0.0, 73.42, 0.0,  73.42, 0.0, 73.42, 0.0,  73.42, 0.0, 73.42, 0.0,  73.42, 0.0, 73.42, 0.0,
+      73.42, 0.0, 73.42, 0.0,  73.42, 0.0, 73.42, 0.0,  73.42, 0.0, 73.42, 0.0,  73.42, 0.0, 73.42, 0.0,
+      98.00, 0.0, 98.00, 0.0,  98.00, 0.0, 98.00, 0.0,  98.00, 0.0, 98.00, 0.0,  98.00, 0.0, 98.00, 0.0,
+      110.0, 0.0, 110.0, 0.0,  110.0, 0.0, 110.0, 0.0,  65.41, 0.0, 65.41, 0.0,  65.41, 0.0, 65.41, 0.0
     ];
 
-    // 4. Retro 8-Bit Arcade: Mega Man 2 - Dr. Wily Castle (Stage 1 / Capcom 1988)
-    // The greatest 8-bit NES chiptune anthem of all time:
-    // D5, D5, F5, G5, A5, F5, D5 | C5, C5, E5, F5, G5, E5, C5 | Bb4, Bb4, D5, E5, F5, D5, Bb4 | A4, A4, C#5, E5, A5, G5, F5, E5
+    // 3B. Neon Edgerunner: "Stay At Your House" Moon Anthem (Rosa Walton Tribute - 125 BPM)
+    // 64 16th-note steps (4 full bars of 4/4): authentic 8th & quarter note phrasing
+    const stayAtYourHouseLead = [
+      622.25, 0.0, 0.0, 0.0,  622.25, 0.0, 622.25, 0.0,  622.25, 0.0, 659.25, 0.0,  622.25, 0.0, 0.0, 0.0,
+      493.88, 0.0, 0.0, 0.0,  493.88, 0.0, 0.0, 0.0,     466.16, 0.0, 0.0, 0.0,     415.30, 0.0, 369.99, 0.0,
+      739.99, 0.0, 0.0, 0.0,  739.99, 0.0, 0.0, 0.0,     830.61, 0.0, 0.0, 0.0,     739.99, 0.0, 0.0, 0.0,
+      622.25, 0.0, 0.0, 0.0,  554.37, 0.0, 0.0, 0.0,     493.88, 0.0, 0.0, 0.0,     554.37, 0.0, 493.88, 0.0
+    ];
+    const stayAtYourHouseBass = [
+      61.74, 61.74, 123.47, 61.74, 61.74, 123.47, 61.74, 123.47, 61.74, 61.74, 123.47, 61.74, 61.74, 123.47, 61.74, 123.47,
+      92.50, 92.50, 185.00, 92.50, 92.50, 185.00, 92.50, 185.00, 92.50, 92.50, 185.00, 92.50, 92.50, 185.00, 92.50, 185.00,
+      77.78, 77.78, 155.56, 77.78, 77.78, 155.56, 77.78, 155.56, 77.78, 77.78, 155.56, 77.78, 77.78, 155.56, 77.78, 155.56,
+      69.30, 69.30, 138.59, 69.30, 69.30, 138.59, 69.30, 138.59, 69.30, 69.30, 138.59, 69.30, 69.30, 138.59, 69.30, 138.59
+    ];
+
+    // 4. Retro 8-Bit Arcade: 8-Bit Castle (Wily Stage Tribute - 148 BPM)
     const wilyMelody = [
       587.33, 587.33, 698.46, 783.99, 880.00, 698.46, 587.33, 0.0,
       523.25, 523.25, 659.25, 698.46, 783.99, 659.25, 523.25, 0.0,
       466.16, 466.16, 587.33, 659.25, 698.46, 587.33, 466.16, 0.0,
       440.00, 440.00, 554.37, 659.25, 880.00, 783.99, 698.46, 659.25
     ];
-    // Galloping 8-bit pulse bass (D2 -> C2 -> Bb1 -> A1):
     const wilyBass = [
       73.42, 73.42, 146.83, 73.42,
       65.41, 65.41, 130.81, 65.41,
@@ -1073,10 +1145,72 @@ public partial class ProceduralMusicPlayer : Node
       55.00, 55.00, 110.00, 55.00
     ];
 
-    // 5. Industrial Mid-Tempo: Gesaffelstein / Rezz (Hate or Glory)
+    // 5. Industrial Mid-Tempo: Obsidian Stomp (Gesaffelstein / Rezz Tribute - 100 BPM)
     const industrialRiff = [
       73.42, 0.0, 73.42, 0.0, 87.31, 0.0, 77.78, 0.0,
       73.42, 0.0, 73.42, 0.0, 98.00, 0.0, 87.31, 0.0
+    ];
+
+    // SUB-GENRE CONFIGS FOR NEON EDGERUNNER (CYBERPUNK TRIBUTE)
+    const genreDataEdgSub = [
+      {
+        name: "Neon Edgerunner (Opening Riff)",
+        bpm: 146,
+        tension: 65,
+        level: 7,
+        cutoff: 3600,
+        lastivka: 0,
+        bells: 0,
+        code: `// 3A. Cyberpunk Tribute: Opening Riff (Franz Ferdinand - This Fffire)
+var recipe = new TrackRecipe
+{
+    Id = 11,
+    Title = "Neon Edgerunner (Opening Riff)",
+    Category = "CyberpunkRock",
+    Bpm = 146.0,
+    RootFreq = 73.42, // D2 Minor Key
+    BassPattern = BassPattern.DrivingRockEighths, // 8th-note driving rock bass
+    DrumPattern = DrumPattern.FourOnTheFloorRock, // 4-on-the-floor kick + snare 2 & 4
+    LeadStyle = LeadStyle.TwinGuitarHarmony, // D4/F4 -> E4/G4 -> F4/A4 -> A4/D5 twin leads
+    FilterCutoff = 3600.0,
+    FilterResonance = 1.8,
+    BassDrive = 2.0, // High-voltage rock saturation
+    SidechainDepth = 0.50
+};`,
+        explanation: `
+          <p><strong>• Franz Ferdinand Twin-Guitar Riff:</strong> Faithfully reproduces the iconic 146 BPM opening riff (<em>D4/F4 &rarr; E4/G4 &rarr; F4/A4 &rarr; A4/D5 &rarr; Bb4/G4 &rarr; E5/G4</em>) using dual-voice polyphonic overdrive.</p>
+          <p style="margin-top: 8px;"><strong>• High-Octane Driving Rhythm:</strong> Fast 8th-note rock bass on D2 with 4-on-the-floor kick and crisp snare cracks on 2 &amp; 4.</p>
+        `
+      },
+      {
+        name: "Neon Edgerunner (Stay At Your House)",
+        bpm: 125,
+        tension: 40,
+        level: 4,
+        cutoff: 2800,
+        lastivka: 0,
+        bells: 0,
+        code: `// 3B. Cyberpunk Tribute: Moon Anthem (Stay At Your House Ballad)
+var recipe = new TrackRecipe
+{
+    Id = 12,
+    Title = "Neon Edgerunner (Stay At Your House)",
+    Category = "DarksynthBallad",
+    Bpm = 125.0,
+    RootFreq = 61.74, // B1 / F#2 Synthwave Key
+    BassPattern = BassPattern.Rolling16th, // Rolling French-touch bass
+    DrumPattern = DrumPattern.FourOnTheFloor,
+    LeadStyle = LeadStyle.JunoChorusLead, // Sustained 8th & quarter note vocal phrasing
+    FilterCutoff = 2800.0,
+    FilterResonance = 1.6,
+    BassDrive = 1.4,
+    SidechainDepth = 0.92 // Heavy French-touch pumping
+};`,
+        explanation: `
+          <p><strong>• Authentic 125 BPM Phrasing:</strong> Plays the emotional chorus vocal hook with true 8th and quarter note phrasing (<em>"So what do you wanna do... what's your point of view... I really want to stay at your house"</em>) with warm detuned Juno saws.</p>
+          <p style="margin-top: 8px;"><strong>• Deep French-Touch Pumping:</strong> Maximizes <code>SidechainDepth</code> to 0.92, dropping bass volume by 20 dB on each kick hit for breathing synthwave drive.</p>
+        `
+      }
     ];
 
     // GENRES CONFIG & CODE EXPLANATIONS
@@ -1084,12 +1218,12 @@ public partial class ProceduralMusicPlayer : Node
       {
         name: "Cyber-Shchedryk",
         bpm: 140,
-        tension: 30,
-        level: 3,
-        cutoff: 2200,
-        lastivka: 65,
-        bells: 55,
-        code: `// 1. Cyber-Shchedryk: Ukrainian Folk Darksynth
+        tension: 35,
+        level: 5,
+        cutoff: 2400,
+        lastivka: 70,
+        bells: 60,
+        code: `// 1. Cyber-Shchedryk: Ukrainian Folk Darksynth (Leontovych 1916 - Public Domain)
 var recipe = new TrackRecipe
 {
     Id = 41,
@@ -1100,7 +1234,7 @@ var recipe = new TrackRecipe
     BassPattern = BassPattern.Rolling16th,
     DrumPattern = DrumPattern.FourOnTheFloor,
     LeadStyle = LeadStyle.UkrainianMotif, // Full 3-voice polyphony
-    FilterCutoff = 2200.0,
+    FilterCutoff = 2400.0,
     FilterResonance = 1.4,
     BassDrive = 1.4,
     SidechainDepth = 0.85
@@ -1114,117 +1248,100 @@ synthEngine.GenerateStreamBlock(left, right, count, context);`,
         `
       },
       {
-        name: "DOOM: At Doom's Gate (E1M1)",
+        name: "Argent Gate (E1M1 Tribute)",
         bpm: 136,
-        tension: 85,
-        level: 8,
-        cutoff: 2800,
+        tension: 90,
+        level: 10,
+        cutoff: 3800,
         lastivka: 0,
         bells: 0,
-        code: `// 2. DOOM: At Doom's Gate (E1M1 / Mick Gordon Argent Overdrive)
+        code: `// 2. Argent Gate: E1M1 Heavy Metal Tribute (Bobby Prince / Mick Gordon)
 var recipe = new TrackRecipe
 {
     Id = 1,
-    Title = "At Doom's Gate (E1M1)",
+    Title = "Argent Gate (E1M1 Tribute)",
     Category = "DoomCyberpunk",
     Bpm = 136.0,
     RootFreq = 82.41, // E2 Drop-E
     BassPattern = BassPattern.DoomArgentChug, // E1M1 Palm-mute riff
     DrumPattern = DrumPattern.DoubleKickPanic, // Double-kick panic
     LeadStyle = LeadStyle.LaserStabs,
-    FilterCutoff = 2800.0,
+    FilterCutoff = 3800.0,
     FilterResonance = 2.4, // Piercing resonant peak
-    BassDrive = 2.5, // Heavy asymmetric tube overdrive
+    BassDrive = 2.6, // Heavy asymmetric tube overdrive
     SidechainDepth = 0.60
 };`,
         explanation: `
           <p><strong>• Unmistakable E1M1 Riff:</strong> Fires the legendary 16th-note guitar pattern (<em>E2-E2-E3-E2-E2-D3-E2-E2-C3-E2-E2-B♭2-B2-C3</em>) with steep exponential palm-mute damping <code>Math.Exp(-noteTime * 28.0)</code>.</p>
-          <p style="margin-top: 8px;"><strong>• Tube Overdrive & Double-Kick:</strong> Bass drive pushed to 2.5x through asymmetric soft-saturation, paired with double-kicks on 16th-note boundaries and explosive snare cracks on 2 & 4.</p>
+          <p style="margin-top: 8px;"><strong>• Tube Overdrive & Double-Kick:</strong> Bass drive pushed to 2.6x through asymmetric soft-saturation, paired with double-kicks on 16th-note boundaries and explosive snare cracks on 2 &amp; 4.</p>
         `
       },
       {
-        name: "Cyberpunk: Edgerunners Theme",
-        bpm: 128,
-        tension: 45,
-        level: 5,
-        cutoff: 3200,
+        // Neon Edgerunner - mapped dynamically through genreDataEdgSub
+        name: "Neon Edgerunner (Cyberpunk Tribute)",
+        bpm: 146,
+        tension: 65,
+        level: 7,
+        cutoff: 3600,
         lastivka: 0,
         bells: 0,
-        code: `// 3. Cyberpunk: Edgerunners | "I Really Want to Stay At Your House"
-var recipe = new TrackRecipe
-{
-    Id = 11,
-    Title = "I Really Want to Stay At Your House",
-    Category = "Darksynth2077",
-    Bpm = 128.0,
-    RootFreq = 92.50, // F#2 Key
-    BassPattern = BassPattern.Rolling16th, // Rolling 16th synthwave bass
-    DrumPattern = DrumPattern.FourOnTheFloor,
-    LeadStyle = LeadStyle.CyberArp, // Edgerunners chorus vocal hook
-    FilterCutoff = 3200.0,
-    FilterResonance = 1.6,
-    BassDrive = 1.5,
-    SidechainDepth = 0.92 // Heavy French-touch pumping
-};`,
-        explanation: `
-          <p><strong>• Iconic Edgerunners Hook:</strong> Synthesizes the emotional chorus melody of Rosa Walton's <em>"I Really Want to Stay At Your House"</em> with warm detuned Juno saw waves and stereo chorus.</p>
-          <p style="margin-top: 8px;"><strong>• Deep French-Touch Pumping:</strong> Maximizes <code>SidechainDepth</code> to 0.92, dropping bass volume by nearly 20 dB on each kick hit to give that signature breathing synthwave drive.</p>
-        `
+        code: `// 3. Neon Edgerunner: Cyberpunk Tribute`,
+        explanation: ``
       },
       {
-        name: "Mega Man: Wily Stage 1",
+        name: "8-Bit Castle (Wily Stage Tribute)",
         bpm: 148,
         tension: 40,
         level: 4,
-        cutoff: 2800,
+        cutoff: 4500,
         lastivka: 0,
         bells: 0,
-        code: `// 4. Retro Arcade: Mega Man 2 - Dr. Wily Castle (Capcom 1988)
+        code: `// 4. Retro Arcade: 8-Bit Castle (Wily Stage 1 Tribute)
 var recipe = new TrackRecipe
 {
     Id = 25,
-    Title = "Mega Man: Wily Castle Stage 1",
+    Title = "8-Bit Castle (Wily Stage 1)",
     Category = "ArcadeRetro",
     Bpm = 148.0,
     RootFreq = 73.42, // D2 Minor Key
     BassPattern = BassPattern.WalkingMoog, // Galloping 8-bit bass
     DrumPattern = DrumPattern.ArcadeBreakbeat, // High-speed arcade drums
     LeadStyle = LeadStyle.ArcadeChiptune, // 50% square wave chiptune
-    FilterCutoff = 2800.0,
+    FilterCutoff = 4500.0,
     FilterResonance = 1.2,
     BassDrive = 1.2
 };`,
         explanation: `
-          <p><strong>• Legendary 8-Bit NES Anthem:</strong> Recreates Capcom's iconic 1988 <em>Mega Man 2 (Dr. Wily Castle Stage 1)</em> using 50% duty-cycle square waves with rapid staccato phrasing and octave vibrato.</p>
-          <p style="margin-top: 8px;"><strong>• Galloping Pulse Bass:</strong> The bass line gallops through <em>D2 -> C2 -> B♭1 -> A1</em> in fast 16th notes with arcade breakbeats.</p>
+          <p><strong>• Legendary 8-Bit NES Anthem:</strong> Recreates the iconic 1988 retro anthem using 50% duty-cycle square waves with rapid staccato phrasing and octave vibrato.</p>
+          <p style="margin-top: 8px;"><strong>• Galloping Pulse Bass:</strong> The bass line gallops through <em>D2 &rarr; C2 &rarr; B♭1 &rarr; A1</em> in fast 16th notes with arcade breakbeats.</p>
         `
       },
       {
-        name: "Industrial Obsidian",
+        name: "Obsidian Stomp (Industrial Mid-Tempo)",
         bpm: 100,
-        tension: 65,
-        level: 2,
-        cutoff: 1700,
+        tension: 75,
+        level: 7,
+        cutoff: 1600,
         lastivka: 0,
         bells: 0,
-        code: `// 5. Industrial Obsidian: Gesaffelstein / Rezz Mid-Tempo
+        code: `// 5. Obsidian Stomp: Dark Industrial Mid-Tempo
 var recipe = new TrackRecipe
 {
     Id = 31,
-    Title = "Industrial Obsidian",
+    Title = "Obsidian Stomp",
     Category = "IndustrialMidtempo",
     Bpm = 100.0,
     RootFreq = 73.42, // D2 Heavy Sub
     BassPattern = BassPattern.HeavyHalfTimeGrowl, // Long decay sub-growl
     DrumPattern = DrumPattern.HeavyHalfTime, // Kick on 1, Clap on 3
     LeadStyle = LeadStyle.LaserStabs,
-    FilterCutoff = 1700.0,
+    FilterCutoff = 1600.0,
     FilterResonance = 2.6,
-    BassDrive = 2.2
+    BassDrive = 2.4
 };`,
         explanation: `
-          <p><strong>• Devastating Sub-Growl:</strong> Decelerates tempo to a brooding 100 BPM half-time. The bass decay extends past 400ms, creating massive physical sub-bass weight with 2.2x tube saturation.</p>
-          <p style="margin-top: 8px;"><strong>• Massive Negative Space:</strong> Kick strikes solely on beat 1, leaving silence until a cavernous industrial clap detonates on beat 3.</p>
+          <p><strong>• Devastating Sub-Growl:</strong> Decelerates tempo to a brooding 100 BPM half-time. The bass decay extends past 400ms, creating massive physical sub-bass weight with 2.4x tube saturation.</p>
+          <p style="margin-top: 8px;"><strong>• Cavernous Negative Space:</strong> Kick strikes solely on beat 1, leaving silence until a cavernous industrial clap detonates on beat 3.</p>
         `
       }
     ];
@@ -1278,11 +1395,12 @@ var recipe = new TrackRecipe
 
         for (let i = 0; i < outL.length; i++) {
           // Smooth glide
-          curBpm += (targetBpm - curBpm) * (1.0 - Math.exp(-dt / 0.6));
+          curBpm += (targetBpm - curBpm) * (1.0 - Math.exp(-dt / 0.12));
           curCutoff += (targetCutoff - curCutoff) * (1.0 - Math.exp(-dt / 0.05));
-          curTension += (targetTension - curTension) * (1.0 - Math.exp(-dt / 0.5));
-          curLastivkaGain += (targetLastivkaGain - curLastivkaGain) * (1.0 - Math.exp(-dt / 0.2));
-          curBellsGain += (targetBellsGain - curBellsGain) * (1.0 - Math.exp(-dt / 0.2));
+          curTension += (targetTension - curTension) * (1.0 - Math.exp(-dt / 0.3));
+          curLevel += (targetLevel - curLevel) * (1.0 - Math.exp(-dt / 0.15));
+          curLastivkaGain += (targetLastivkaGain - curLastivkaGain) * (1.0 - Math.exp(-dt / 0.15));
+          curBellsGain += (targetBellsGain - curBellsGain) * (1.0 - Math.exp(-dt / 0.15));
           curDuckGain += (targetDuckGain - curDuckGain) * (1.0 - Math.exp(-dt / 0.04));
 
           // Master Clock
@@ -1313,12 +1431,16 @@ var recipe = new TrackRecipe
             const beatInBar = Math.floor(beatPhase) % 4;
             const isBeatStart = (activeGenre === 0) ? (currentStep % 3 === 0) : (currentStep % 4 === 0);
 
-            if (activeGenre === 1) { // DOOM (Double-kick panic on every 16th step)
+            if (activeGenre === 1) { // Argent Gate / DOOM (Double-kick panic on every 16th step)
               kickTimer = 0.0;
               if (currentStep % 4 === 2) snareTimer = 0.0;
-            } else if (activeGenre === 4) { // Industrial (Heavy half-time)
+            } else if (activeGenre === 4) { // Industrial Obsidian (Heavy half-time stomp)
               if (isBeatStart && beatInBar === 0) kickTimer = 0.0;
               if (isBeatStart && beatInBar === 2) snareTimer = 0.0;
+            } else if (activeGenre === 2 && edgerunnerSubMode === 0) { // Neon Edgerunner Rock Groove (This Fffire)
+              if (isBeatStart) kickTimer = 0.0;
+              if (isBeatStart && (beatInBar === 1 || beatInBar === 3)) snareTimer = 0.0;
+              if (currentStep % 2 === 0) hatTimer = 0.0;
             } else if (isBeatStart) {
               if (curTension < 0.38) {
                 if (beatInBar === 0 || beatInBar === 2) kickTimer = 0.0;
@@ -1329,7 +1451,9 @@ var recipe = new TrackRecipe
               }
             }
 
-            hatTimer = 0.0;
+            // Progression level hi-hat & percussion density
+            if (curLevel >= 6 && currentStep % 2 === 0) hatTimer = 0.0;
+            if (curLevel >= 11) hatTimer = 0.0;
           } else {
             noteTime += dt;
             bellTimer += dt;
@@ -1372,7 +1496,7 @@ var recipe = new TrackRecipe
             leadSignal = fStage[3] * (0.65 + curTension * 0.15);
 
           } else if (activeGenre === 1) {
-            // DOOM: Chainsaw screaming harmonics on the E1M1 accent leaps
+            // Argent Gate / DOOM: Chainsaw screaming harmonics on the E1M1 accent leaps
             const doomLeadNote = doomRiff[safeStep % doomRiff.length] * 2.0;
             if (safeStep % 4 === 2 || safeStep % 8 === 7) {
               phaseLead1 = (phaseLead1 + doomLeadNote / sampleRate) % 1.0;
@@ -1383,19 +1507,34 @@ var recipe = new TrackRecipe
             }
 
           } else if (activeGenre === 2) {
-            // Cyberpunk: Edgerunners | "I Really Want to Stay At Your House" Chorus Hook
-            const edgNote = (edgerunnersHook[safeStep % edgerunnersHook.length] || 0.0) * pitchMult;
-            if (edgNote > 20.0) {
-              phaseLead1 = (phaseLead1 + edgNote / sampleRate) % 1.0;
-              phaseLead2 = (phaseLead2 + (edgNote * 1.005) / sampleRate) % 1.0;
-              const saw1 = (2.0 * phaseLead1 - 1.0);
-              const saw2 = (2.0 * phaseLead2 - 1.0);
-              const env = Math.exp(-noteTime * 5.5);
-              leadSignal = (saw1 * 0.5 + saw2 * 0.5) * env * 0.75;
+            // Neon Edgerunner (Cyberpunk Tribute)
+            if (edgerunnerSubMode === 0) {
+              // 3A. Franz Ferdinand Opening Riff (Twin Guitar Harmony @ 146 BPM)
+              const f1 = (fffireLead1[safeStep % 64] || 0.0) * pitchMult;
+              const f2 = (fffireLead2[safeStep % 64] || 0.0) * pitchMult;
+              if (f1 > 20.0 || f2 > 20.0) {
+                if (f1 > 20.0) phaseLead1 = (phaseLead1 + f1 / sampleRate) % 1.0;
+                if (f2 > 20.0) phaseLead2 = (phaseLead2 + f2 / sampleRate) % 1.0;
+                const s1 = (2.0 * phaseLead1 - 1.0);
+                const s2 = (2.0 * phaseLead2 - 1.0);
+                const env = Math.exp(-noteTime * 6.5);
+                leadSignal = Math.tanh((s1 * 0.55 + s2 * 0.45) * 2.2) * env * 0.90;
+              }
+            } else {
+              // 3B. Stay At Your House Chorus Vocal Anthem (Lush 8th/quarter note phrasing @ 125 BPM)
+              const edgNote = (stayAtYourHouseLead[safeStep % 64] || 0.0) * pitchMult;
+              if (edgNote > 20.0) {
+                phaseLead1 = (phaseLead1 + edgNote / sampleRate) % 1.0;
+                phaseLead2 = (phaseLead2 + (edgNote * 1.006) / sampleRate) % 1.0;
+                const saw1 = (2.0 * phaseLead1 - 1.0);
+                const saw2 = (2.0 * phaseLead2 - 1.0);
+                const env = Math.exp(-noteTime * 2.8);
+                leadSignal = (saw1 * 0.5 + saw2 * 0.5) * env * 0.85;
+              }
             }
 
           } else if (activeGenre === 3) {
-            // Retro 8-Bit Arcade: Mega Man 2 - Dr. Wily Castle Stage 1
+            // Retro 8-Bit Arcade: 8-Bit Castle (Wily Stage Tribute)
             const wilyNote = (wilyMelody[safeStep % wilyMelody.length] || 0.0) * pitchMult;
             if (wilyNote > 20.0) {
               const vibrato = 1.0 + Math.sin(beatPhase * 14.0) * 0.008;
@@ -1404,7 +1543,7 @@ var recipe = new TrackRecipe
             }
 
           } else if (activeGenre === 4) {
-            // Industrial Obsidian: Off-beat resonant pitch-dive laser zaps
+            // Obsidian Stomp: Off-beat resonant pitch-dive laser zaps
             if (safeStep % 8 === 4) {
               const zapF = 320.0 * Math.exp(-noteTime * 25.0);
               phaseLead1 = (phaseLead1 + zapF / sampleRate) % 1.0;
@@ -1457,7 +1596,7 @@ var recipe = new TrackRecipe
             bassSignal = (sawBass + subBass) * 0.75;
 
           } else if (activeGenre === 1) {
-            // DOOM: "At Doom's Gate" (E1M1) Riff Bass Chugs
+            // Argent Gate / DOOM: "At Doom's Gate" (E1M1) Riff Bass Chugs
             const bFreq = (doomRiff[safeStep % doomRiff.length] || 82.41) * pitchMult;
             phaseBass = (phaseBass + bFreq / sampleRate) % 1.0;
             const saw = (2.0 * phaseBass - 1.0);
@@ -1465,32 +1604,42 @@ var recipe = new TrackRecipe
             bassSignal = Math.tanh(chug * 2.8) * 1.1; // Heavy tube distortion
 
           } else if (activeGenre === 2) {
-            // Cyberpunk: Edgerunners Rolling 16th Synthwave Bass
-            const bFreq = (edgerunnersBass[safeStep % edgerunnersBass.length] || 61.74) * pitchMult;
-            phaseBass = (phaseBass + bFreq / sampleRate) % 1.0;
-            const saw = (2.0 * phaseBass - 1.0) * Math.exp(-noteTime * 14.0);
-            const sub = Math.sin(2.0 * Math.PI * phaseBass * 0.5) * 0.5;
-            bassSignal = Math.tanh((saw + sub) * 1.6) * 0.90;
+            if (edgerunnerSubMode === 0) {
+              // Franz Ferdinand driving rock bass on D2, G2, A2/C2
+              const bFreq = (fffireBass[safeStep % 64] || 73.42) * pitchMult;
+              if (bFreq > 20.0) {
+                phaseBass = (phaseBass + bFreq / sampleRate) % 1.0;
+                const saw = (2.0 * phaseBass - 1.0) * Math.exp(-noteTime * 11.0);
+                bassSignal = Math.tanh(saw * 2.2) * 0.95;
+              }
+            } else {
+              // Stay At Your House Rolling 16th French-Touch Bass
+              const bFreq = (stayAtYourHouseBass[safeStep % 64] || 61.74) * pitchMult;
+              phaseBass = (phaseBass + bFreq / sampleRate) % 1.0;
+              const saw = (2.0 * phaseBass - 1.0) * Math.exp(-noteTime * 14.0);
+              const sub = Math.sin(2.0 * Math.PI * phaseBass * 0.5) * 0.5;
+              bassSignal = Math.tanh((saw + sub) * 1.6) * 0.90;
+            }
 
           } else if (activeGenre === 3) {
-            // Retro Arcade: Mega Man Galloping 8-Bit Bass
+            // Retro Arcade: 8-Bit Castle Galloping Bass
             const bFreq = (wilyBass[safeStep % wilyBass.length] || 73.42) * pitchMult;
             phaseBass = (phaseBass + bFreq / sampleRate) % 1.0;
             bassSignal = (2.0 * phaseBass - 1.0) * Math.exp(-noteTime * 11.0) * 0.85;
 
           } else if (activeGenre === 4) {
-            // Industrial Mid-Tempo Sub-Growl
+            // Obsidian Stomp: Devastating Analog Sub-Growl
             const bFreq = (industrialRiff[safeStep % industrialRiff.length] || 73.42) * pitchMult;
             if (bFreq > 20.0) {
               phaseBass = (phaseBass + bFreq / sampleRate) % 1.0;
               const saw = (2.0 * phaseBass - 1.0) * 0.6;
               const sub = Math.sin(2.0 * Math.PI * phaseBass * 0.5) * 0.8;
-              bassSignal = Math.tanh((saw + sub) * 2.2) * Math.exp(-noteTime * 5.0) * 1.0;
+              bassSignal = Math.tanh((saw + sub) * 2.4) * Math.exp(-noteTime * 5.0) * 1.0;
             }
           }
 
           // Sidechain Ducking
-          const sidechainDepth = (activeGenre === 2) ? 0.92 : (activeGenre === 1 ? 0.60 : 0.85);
+          const sidechainDepth = (activeGenre === 2 && edgerunnerSubMode === 1) ? 0.92 : (activeGenre === 1 ? 0.60 : 0.80);
           const sidechain = Math.min(1.0, (beatTime / 0.075) * sidechainDepth + (1.0 - sidechainDepth));
           bassSignal *= sidechain;
 
@@ -1507,7 +1656,7 @@ var recipe = new TrackRecipe
           if (snareTimer < 0.22) {
             const body = Math.sin(2.0 * Math.PI * 190.0 * snareTimer) * Math.exp(-snareTimer * 32.0) * 0.45;
             const noise = (Math.random() * 2.0 - 1.0) * Math.exp(-snareTimer * 22.0) * 0.40;
-            snare = (body + noise) * (activeGenre === 1 ? 1.1 : 0.85);
+            snare = (body + noise) * (activeGenre === 1 ? 1.15 : 0.88);
           }
 
           if (hatTimer < 0.06) {
@@ -1521,8 +1670,9 @@ var recipe = new TrackRecipe
           mixL *= curDuckGain * masterVol;
           mixR *= curDuckGain * masterVol;
 
-          outL[i] = Number.isFinite(mixL) ? Math.tanh(mixL * 0.75) : 0.0;
-          outR[i] = Number.isFinite(mixR) ? Math.tanh(mixR * 0.75) : 0.0;
+          const levelDrive = 1.0 + (curLevel / 15.0) * 0.30;
+          outL[i] = Number.isFinite(mixL) ? Math.tanh(mixL * 0.72 * levelDrive) : 0.0;
+          outR[i] = Number.isFinite(mixR) ? Math.tanh(mixR * 0.72 * levelDrive) : 0.0;
 
           if (i % 16 === 0 && (i / 16) < scopeData.length) {
             scopeData[i / 16] = outL[i];
@@ -1551,7 +1701,49 @@ var recipe = new TrackRecipe
       }
     }
 
-    // --- GENRE SWITCHING ---
+    // --- MOTORIZED SLIDER ANIMATION & GENRE SWITCHING ---
+    let sliderAnimId = null;
+    function animateSlidersTo(targetValues, durationMs = 380) {
+      if (sliderAnimId) cancelAnimationFrame(sliderAnimId);
+
+      const startValues = {
+        Bpm: parseFloat(document.getElementById('sliderBpm').value),
+        Tension: parseFloat(document.getElementById('sliderTension').value),
+        Level: parseFloat(document.getElementById('sliderLevel').value),
+        Cutoff: parseFloat(document.getElementById('sliderCutoff').value),
+        Lastivka: parseFloat(document.getElementById('sliderLastivka').value),
+        Bells: parseFloat(document.getElementById('sliderBells').value)
+      };
+
+      const startTime = performance.now();
+
+      function step(now) {
+        const elapsed = now - startTime;
+        const p = Math.min(1.0, elapsed / durationMs);
+        const ease = p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;
+
+        for (const key in targetValues) {
+          const s = startValues[key];
+          const t = targetValues[key];
+          if (s !== undefined && t !== undefined) {
+            const v = s + (t - s) * ease;
+            const el = document.getElementById('slider' + key);
+            if (el) el.value = v;
+          }
+        }
+
+        updateParams();
+
+        if (p < 1.0) {
+          sliderAnimId = requestAnimationFrame(step);
+        } else {
+          sliderAnimId = null;
+        }
+      }
+
+      sliderAnimId = requestAnimationFrame(step);
+    }
+
     function selectGenre(idx) {
       activeGenre = idx;
       document.querySelectorAll('.genre-card').forEach((c, i) => {
@@ -1559,13 +1751,21 @@ var recipe = new TrackRecipe
         else c.classList.remove('active-genre');
       });
 
-      const data = genreData[idx];
-      document.getElementById('sliderBpm').value = data.bpm;
-      document.getElementById('sliderTension').value = data.tension;
-      document.getElementById('sliderLevel').value = data.level;
-      document.getElementById('sliderCutoff').value = data.cutoff;
-      document.getElementById('sliderLastivka').value = data.lastivka;
-      document.getElementById('sliderBells').value = data.bells;
+      let data = (idx === 2) ? genreDataEdgSub[edgerunnerSubMode] : genreData[idx];
+
+      animateSlidersTo({
+        Bpm: data.bpm,
+        Tension: data.tension,
+        Level: data.level,
+        Cutoff: data.cutoff,
+        Lastivka: data.lastivka,
+        Bells: data.bells
+      }, 400);
+
+      // Clean beat alignment on genre switch
+      currentStep = -1;
+      beatPhase = 0.0;
+      noteTime = 0.0;
 
       // Show/hide Shchedryk layers
       const gLastivka = document.getElementById('groupLastivka');
@@ -1579,11 +1779,28 @@ var recipe = new TrackRecipe
       }
 
       updateGenreDisplay(idx);
-      updateParams();
+    }
+
+    function setEdgerunnerSub(e, mode) {
+      if (e) e.stopPropagation();
+      edgerunnerSubMode = mode;
+      document.querySelectorAll('.sub-genre-btn').forEach((b, i) => {
+        if (i === mode) b.classList.add('active');
+        else b.classList.remove('active');
+      });
+
+      const badge = document.getElementById('edgBadge');
+      if (mode === 0) {
+        if (badge) badge.innerText = '146 BPM • D-Minor • Twin Guitar Lead';
+      } else {
+        if (badge) badge.innerText = '125 BPM • F#-Major • Chorus Vocal Ballad';
+      }
+
+      selectGenre(2);
     }
 
     function updateGenreDisplay(idx) {
-      const data = genreData[idx];
+      const data = (idx === 2) ? genreDataEdgSub[edgerunnerSubMode] : genreData[idx];
       document.getElementById('codeDiffDisplay').innerHTML = data.code;
       document.getElementById('explanationDisplay').innerHTML = data.explanation;
     }
@@ -1597,15 +1814,16 @@ var recipe = new TrackRecipe
       const bells = parseFloat(document.getElementById('sliderBells').value);
       const vol = parseFloat(document.getElementById('sliderVol').value);
 
-      document.getElementById('valTension').innerText = `${tension}%`;
+      document.getElementById('valTension').innerText = `${tension.toFixed(0)}%`;
       document.getElementById('valLevel').innerText = level;
       document.getElementById('valBpm').innerText = `${bpm.toFixed(0)} BPM`;
       document.getElementById('valCutoff').innerText = `${cutoff.toFixed(0)} Hz`;
-      document.getElementById('valLastivka').innerText = `${lastivka}%`;
-      document.getElementById('valBells').innerText = `${bells}%`;
-      document.getElementById('valVol').innerText = `${vol}%`;
+      document.getElementById('valLastivka').innerText = `${lastivka.toFixed(0)}%`;
+      document.getElementById('valBells').innerText = `${bells.toFixed(0)}%`;
+      document.getElementById('valVol').innerText = `${vol.toFixed(0)}%`;
 
       targetTension = tension / 100.0;
+      targetLevel = level;
       targetBpm = bpm;
       targetCutoff = cutoff;
       targetLastivkaGain = lastivka / 100.0;

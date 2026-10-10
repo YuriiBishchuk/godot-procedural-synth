@@ -231,6 +231,9 @@ godot-procedural-synth/
 
 ---
 
-## 📄 License
+## 📄 License & Legal Notice
 
 Licensed under the [MIT License](LICENSE). Free for both commercial and open-source game development.
+
+> **🛡️ Educational & Open-Source Tribute Notice:**  
+> All music sequences and audio DSP recipes in this repository and its interactive web demo are algorithmic mathematical models generated in real time with **zero recorded audio samples or commercial audio assets**. Musical demonstrations are educational stylistic homages and tributes to classic video game soundtracks and cultural works. Mykola Leontovych's *Shchedryk* (1916) is in the Public Domain worldwide. All original video game titles and band references remain the property of their respective trademark and copyright holders.
