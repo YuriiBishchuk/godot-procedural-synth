@@ -1039,21 +1039,21 @@ public partial class ProceduralMusicPlayer : Node
       130.81, 82.41, 82.41, 116.54, 123.47, 130.81, 82.41, 82.41
     ];
 
-    // 3. Cyberpunk: Edgerunners | "I Really Want to Stay At Your House" (Rosa Walton)
-    // The unforgettable chorus vocal hook:
-    // "I couldn't wait for you to come clear the cupboards / But now you're gone... / I really want to stay at your house..."
+    // 3. Cyberpunk: Edgerunners | "I Really Want to Stay At Your House" (Rosa Walton / Hallie Coggins)
+    // The exact, iconic chorus vocal hook:
+    // "So what do you wanna do, what's your point-of-view / I really want to stay at your house..."
     const edgerunnersHook = [
-      554.37, 466.16, 554.37, 466.16, 415.30, 369.99, 415.30, 466.16,
-      554.37, 622.25, 554.37, 466.16, 415.30, 369.99, 369.99, 0.0,
-      554.37, 554.37, 622.25, 554.37, 466.16, 415.30, 369.99, 0.0,
-      369.99, 415.30, 466.16, 415.30, 369.99, 311.13, 369.99, 0.0
+      622.25, 622.25, 622.25, 622.25, 622.25, 659.25, 622.25, 493.88, // "So what do you wanna"
+      493.88, 493.88, 0.0,    466.16, 415.30, 369.99, 369.99, 415.30, // "do, what's your point of"
+      739.99, 739.99, 739.99, 739.99, 830.61, 830.61, 739.99, 739.99, // "view? I really"
+      622.25, 622.25, 554.37, 493.88, 493.88, 554.37, 554.37, 493.88  // "want to stay at your house"
     ];
-    // Edgerunners Synthwave Bass progression (F# -> D# -> B -> C#):
+    // Edgerunners Synthwave Bass (B Major -> F# Major -> D# minor -> C# Major):
     const edgerunnersBass = [
-      92.50, 92.50, 92.50, 92.50,
-      77.78, 77.78, 77.78, 77.78,
-      61.74, 61.74, 61.74, 61.74,
-      69.30, 69.30, 69.30, 69.30
+      61.74, 61.74, 123.47, 61.74, 61.74, 123.47, 61.74, 123.47, // B Major
+      92.50, 92.50, 185.00, 92.50, 92.50, 185.00, 92.50, 185.00, // F# Major
+      77.78, 77.78, 155.56, 77.78, 77.78, 155.56, 77.78, 155.56, // D# minor
+      69.30, 69.30, 138.59, 69.30, 69.30, 138.59, 69.30, 138.59  // C# Major
     ];
 
     // 4. Retro 8-Bit Arcade: Mega Man 2 - Dr. Wily Castle (Stage 1 / Capcom 1988)
@@ -1466,7 +1466,7 @@ var recipe = new TrackRecipe
 
           } else if (activeGenre === 2) {
             // Cyberpunk: Edgerunners Rolling 16th Synthwave Bass
-            const bFreq = (edgerunnersBass[Math.floor(safeStep / 4) % edgerunnersBass.length] || 92.50) * pitchMult;
+            const bFreq = (edgerunnersBass[safeStep % edgerunnersBass.length] || 61.74) * pitchMult;
             phaseBass = (phaseBass + bFreq / sampleRate) % 1.0;
             const saw = (2.0 * phaseBass - 1.0) * Math.exp(-noteTime * 14.0);
             const sub = Math.sin(2.0 * Math.PI * phaseBass * 0.5) * 0.5;
